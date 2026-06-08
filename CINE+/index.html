@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CINE+ RENTALS</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:#f5f6fa;color:#111225;overflow-x:hidden;cursor:none;}
+
+/* ─── CURSOR ─── */
+.cur{width:8px;height:8px;background:#111225;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cur-r{width:30px;height:30px;border:1px solid rgba(17,18,37,.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+
+/* ─── CURSOR ─── */
+nav{position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:28px 64px;transition:padding .3s,background .3s;}
+nav.s{padding:16px 64px;background:rgba(245,246,250,.97);border-bottom:1px solid rgba(17,18,37,.08);backdrop-filter:blur(12px);}
+.logo{display:flex;align-items:center;text-decoration:none;}
+.logo img{height:36px;width:auto;display:block;transition:height .3s, filter .3s;filter:invert(1);}
+nav.s .logo img{height:28px;filter:invert(1) brightness(0);}
+.nav-r{display:flex;align-items:center;gap:32px;}
+.nav-r a{color:rgba(17,18,37,.5);text-decoration:none;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;transition:color .2s;cursor:none;}
+.nav-r a:hover{color:#111225;}
+.nav-cta{border:1px solid rgba(9,123,239,.5)!important;color:#097bef!important;background:rgba(9,123,239,.08);padding:8px 20px;transition:all .2s!important;}
+.nav-cta:hover{border-color:#097bef!important;color:#fff!important;background:#097bef!important;}
+
+/* ─── HERO ─── */
+#hero{min-height:88vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f5f6fa;}
+/* decorative blue glow blobs */
+.hero-blob1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.12) 0%,transparent 65%);top:-100px;right:-100px;pointer-events:none;}
+.hero-blob2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(32,60,140,.1) 0%,transparent 65%);bottom:-80px;left:-80px;pointer-events:none;}
+/* subtle grid lines */
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(9,123,239,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(9,123,239,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-content{position:relative;z-index:2;padding:140px 64px 100px;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:rgba(17,18,37,.4);margin-bottom:24px;display:flex;align-items:center;gap:12px;opacity:0;animation:fu .7s .1s forwards;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:#097bef;}
+.hero-eyebrow::after{content:'';width:28px;height:1px;background:#097bef;}
+.hero-h1{font-size:clamp(40px,7vw,96px);font-weight:800;line-height:.95;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:28px;color:#111225;}
+.hero-h1 .l{display:block;opacity:0;transform:translateY(32px);}
+.hero-h1 .l:nth-child(1){animation:fu .85s .25s forwards;}
+.hero-h1 .l:nth-child(2){animation:fu .85s .38s forwards;color:#097bef;}
+.hero-h1 .l:nth-child(3){animation:fu .85s .51s forwards;}
+.hero-h1 .l:nth-child(4){animation:fu .85s .64s forwards;}
+.hero-sub{font-size:13px;line-height:1.9;color:rgba(17,18,37,.5);max-width:460px;margin-bottom:0;opacity:0;animation:fu .85s .75s forwards;}
+/* scroll hint */
+.hero-scroll{position:absolute;bottom:32px;right:64px;z-index:2;display:flex;align-items:center;gap:10px;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(17,18,37,.25);opacity:0;animation:fi .8s 1.2s forwards;}
+.hero-scroll::after{content:'';width:1px;height:36px;background:linear-gradient(to bottom,rgba(17,18,37,.2),transparent);}
+
+/* ─── FLOATING ICONS ─── */
+.float-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:16px;border-radius:20px;
+  background:rgba(255,255,255,.8);backdrop-filter:blur(14px);
+  border:1px solid rgba(9,123,239,.1);
+  box-shadow:0 4px 24px rgba(17,18,37,.1),0 1px 0 rgba(255,255,255,.9) inset;
+  cursor:grab;user-select:none;z-index:3;
+  transition:box-shadow .2s,transform .2s;}
+.float-icon img{width:64px;height:64px;object-fit:contain;pointer-events:none;display:block;}
+.float-icon:hover{box-shadow:0 8px 32px rgba(9,123,239,.18),0 1px 0 rgba(255,255,255,.9) inset;transform:translateY(-2px);}
+.float-icon.dragging{cursor:grabbing;box-shadow:0 16px 48px rgba(9,123,239,.25);transform:scale(1.06);transition:none;}
+.float-icon span{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(17,18,37,.4);}
+
+@keyframes floatA{0%,100%{transform:translateY(0px) rotate(-2deg);}50%{transform:translateY(-10px) rotate(1deg);}}
+@keyframes floatB{0%,100%{transform:translateY(0px) rotate(1deg);}50%{transform:translateY(-14px) rotate(-2deg);}}
+@keyframes floatC{0%,100%{transform:translateY(0px) rotate(0deg);}50%{transform:translateY(-8px) rotate(2deg);}}
+#fi1{animation:floatA 5s ease-in-out infinite;}
+#fi2{animation:floatB 6s ease-in-out infinite;}
+#fi3{animation:floatC 4.5s ease-in-out infinite;}
+#fi4{animation:floatA 7s ease-in-out infinite;}
+#fi5{animation:floatB 5.5s ease-in-out infinite;}
+#fi6{animation:floatC 6.5s ease-in-out infinite;}
+.float-icon.dragging{animation:none !important;}
+
+@keyframes fu{to{opacity:1;transform:translateY(0);}}
+@keyframes fi{to{opacity:1;}}
+
+/* ─── PROYECTOS ─── */
+#proyectos{padding:80px 0;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
+.sec-label{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sec-label::before{content:'';width:20px;height:2px;background:#097bef;border-radius:2px;}
+.sec-h2{font-size:clamp(28px,3vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:32px;color:#111225;}
+.proj-head{padding:0 80px;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+.proj-head-left{}
+/* grid */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(17,18,37,.07);margin:0 80px;}
+.proj-item{cursor:none;display:flex;flex-direction:column;background:#f5f6fa;transition:background .25s;}
+.proj-item:hover{background:#fff;}
+.proj-thumb{width:100%;aspect-ratio:3/2;overflow:hidden;position:relative;}
+.proj-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.25,.46,.45,.94);}
+.proj-item:hover .proj-thumb img{transform:scale(1.04);}
+/* placeholder bg */
+.proj-thumb-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .55s cubic-bezier(.25,.46,.45,.94);}
+.proj-item:hover .proj-thumb-ph{transform:scale(1.03);}
+.pg1{background:linear-gradient(145deg,#111225,#20254a);}
+.pg2{background:linear-gradient(145deg,#20254a,#263166);}
+.pg3{background:linear-gradient(145deg,#097bef,#203c8c);}
+.pg4{background:linear-gradient(145deg,#111225,#263166);}
+.pg5{background:linear-gradient(145deg,#263166,#097bef);}
+.pg6{background:linear-gradient(145deg,#20254a,#111225);}
+/* overlay on hover */
+.proj-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,18,37,.7) 0%,transparent 55%);opacity:0;transition:opacity .3s;}
+.proj-item:hover .proj-thumb::after{opacity:1;}
+/* hover arrow */
+.proj-arr{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(9,123,239,.9);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:all .3s;z-index:2;color:#fff;}
+.proj-item:hover .proj-arr{opacity:1;transform:scale(1);}
+/* category tag on thumb */
+.proj-tag{position:absolute;bottom:14px;left:14px;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(9,123,239,.85);color:#fff;opacity:0;transition:opacity .3s;z-index:2;}
+.proj-item:hover .proj-tag{opacity:1;}
+.proj-info{padding:16px 20px 20px;}
+.proj-cat{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#097bef;margin-bottom:5px;}
+.proj-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111225;line-height:1.3;}
+.proj-num{font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(17,18,37,.2);float:right;margin-top:2px;}
+/* bottom btn */
+.proj-more{text-align:center;padding:48px 80px 8px;}
+.btn-more{display:inline-flex;align-items:center;gap:10px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-decoration:none;padding:14px 36px;border-radius:999px;cursor:none;
+  background:linear-gradient(135deg,#097bef 0%,#203c8c 100%);
+  box-shadow:0 4px 20px rgba(9,123,239,.3);
+  transition:all .3s;}
+.btn-more:hover{box-shadow:0 8px 32px rgba(9,123,239,.5);transform:translateY(-2px);}
+
+/* ─── SERVICIOS ─── */
+#servicios{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
+.srv-head{padding:0 80px;margin-bottom:48px;}
+.srv-pills{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;}
+.srv-pill{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:999px;cursor:none;
+  background:linear-gradient(145deg,rgba(9,123,239,.35) 0%,rgba(32,60,140,.55) 50%,rgba(9,123,239,.3) 100%);
+  border:1px solid rgba(9,123,239,.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 2px 14px rgba(9,123,239,.25);
+  transition:all .25s;
+  backdrop-filter:blur(6px);
+}
+.srv-pill:hover{
+  background:linear-gradient(145deg,rgba(9,123,239,.5) 0%,rgba(32,60,140,.6) 50%,rgba(9,123,239,.45) 100%);
+  border-color:rgba(9,123,239,.4);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 4px 20px rgba(9,123,239,.35);
+  transform:translateY(-1px);
+}
+.srv-pill svg{color:rgba(9,123,239,.9);flex-shrink:0;width:20px;height:20px;}
+.srv-pill span{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
+.srv-pill:hover span{color:#fff;}
+.srv-pill:hover svg{color:#dde1f3;}
+
+/* ─── RENTA ─── */
+#renta{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
+.renta-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.renta-card{position:relative;padding:56px 48px;overflow:hidden;cursor:none;
+  background:linear-gradient(145deg,#263166 0%,#20254a 60%,#263166 100%);
+  border:1px solid rgba(221,225,243,.09);
+  box-shadow:inset 0 1px 0 rgba(221,225,243,.07);
+  transition:all .3s;}
+.renta-card:hover{background:linear-gradient(145deg,#263166 0%,#20254a 60%,#263166 100%);border-color:rgba(221,225,243,.18);transform:translateY(-2px);}
+.renta-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(32,60,140,.3),transparent 60%);}
+.renta-num{font-size:9px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(221,225,243,.35);margin-bottom:32px;}
+.renta-icon{color:rgba(221,225,243,.25);margin-bottom:24px;}
+.renta-card:hover .renta-icon{color:rgba(221,225,243,.5);}
+.renta-title{font-size:22px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#dde1f3;margin-bottom:12px;}
+.renta-desc{font-size:13px;font-weight:400;line-height:1.8;color:rgba(221,225,243,.55);max-width:340px;margin-bottom:32px;}
+.renta-pill{display:inline-flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(221,225,243,.9);text-decoration:none;padding:10px 22px;border-radius:999px;cursor:none;
+  background:linear-gradient(145deg,rgba(9,123,239,.3) 0%,rgba(32,60,140,.45) 50%,rgba(9,123,239,.25) 100%);
+  border:1px solid rgba(9,123,239,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 14px rgba(9,123,239,.2);
+  transition:all .25s;backdrop-filter:blur(6px);}
+.renta-pill:hover{background:linear-gradient(145deg,rgba(9,123,239,.5) 0%,rgba(32,60,140,.6) 50%,rgba(9,123,239,.45) 100%);border-color:rgba(9,123,239,.4);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,123,239,.3);}
+
+/* ─── CONTACTO ─── */
+#contacto{padding:80px 80px;background:#f5f6fa;}
+.ct-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(17,18,37,.1);overflow:hidden;
+  background:#fff;
+  box-shadow:0 4px 32px rgba(17,18,37,.08);}
+.ct-left{padding:56px 52px;border-right:1px solid rgba(17,18,37,.07);
+  background:#fff;}
+.ct-left h2{font-size:clamp(22px,3vw,38px);font-weight:300;letter-spacing:.06em;text-transform:uppercase;line-height:1.15;margin-bottom:16px;color:#111225;}
+.ct-left p{font-size:13px;line-height:1.9;color:rgba(17,18,37,.5);margin-bottom:48px;max-width:360px;}
+.ct-info{display:flex;flex-direction:column;gap:0;}
+.ct-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(17,18,37,.07);}
+.ct-item:first-child{border-top:1px solid rgba(17,18,37,.07);}
+.ct-ic{width:32px;height:32px;border:1px solid rgba(9,123,239,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#097bef;border-radius:6px;background:rgba(9,123,239,.08);}
+.ct-lbl{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(17,18,37,.35);margin-bottom:2px;}
+.ct-val{font-size:13px;font-weight:500;color:#111225;}
+/* right side */
+.ct-right{padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,rgba(9,123,239,.18) 0%,rgba(32,60,140,.25) 35%,rgba(38,49,102,.15) 65%,rgba(9,123,239,.12) 100%);position:relative;overflow:hidden;}
+.ct-right::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.2) 0%,transparent 65%);top:-80px;right:-80px;pointer-events:none;}
+.ct-right::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(32,60,140,.25) 0%,transparent 65%);bottom:-60px;left:-60px;pointer-events:none;}
+.ct-right-top h3{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(221,225,243,.5);margin-bottom:32px;}
+.ct-btns{display:flex;flex-direction:column;gap:12px;}
+.ct-btn-wa{display:flex;align-items:center;gap:12px;padding:16px 24px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;
+  background:linear-gradient(145deg,#25d366 0%,#128c7e 50%,#25d366 100%);
+  border:1px solid rgba(37,211,102,.4);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 20px rgba(37,211,102,.4);
+  color:#fff;backdrop-filter:blur(6px);}
+.ct-btn-wa:hover{background:linear-gradient(145deg,#128c7e 0%,#25d366 50%,#128c7e 100%);border-color:rgba(37,211,102,.6);color:#fff;transform:translateY(-1px);box-shadow:0 6px 32px rgba(37,211,102,.5);}
+.ct-btn-email{display:flex;align-items:center;gap:12px;padding:16px 24px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;
+  background:linear-gradient(145deg,#833ab4 0%,#fd1d1d 50%,#fcb045 100%);
+  border:1px solid rgba(253,29,29,.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 20px rgba(131,58,180,.4);
+  color:#fff;backdrop-filter:blur(6px);}
+.ct-btn-email:hover{background:linear-gradient(145deg,#fcb045 0%,#fd1d1d 50%,#833ab4 100%);border-color:rgba(253,29,29,.5);color:#fff;transform:translateY(-1px);box-shadow:0 6px 32px rgba(131,58,180,.55);}
+.ct-note{font-size:10px;color:rgba(221,225,243,.45);line-height:1.7;margin-top:auto;padding-top:32px;}
+
+/* ─── FOOTER ─── */
+footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
+.ft-top{padding:64px 80px 48px;display:grid;grid-template-columns:1.6fr 1fr;gap:64px;border-bottom:1px solid rgba(255,255,255,.06);}
+.ft-brand .ft-logo{font-size:13px;font-weight:800;letter-spacing:.2em;color:#fff;margin-bottom:10px;}
+.ft-brand .ft-tag{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:.05em;line-height:1.6;max-width:260px;margin-bottom:24px;}
+.ft-location{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.ft-location svg{color:#097bef;flex-shrink:0;margin-top:2px;}
+.ft-location p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.6;}
+.ft-location p strong{color:rgba(255,255,255,.7);display:block;font-weight:600;font-size:11px;margin-bottom:2px;}
+.ft-location-link{text-decoration:none;transition:all .2s;cursor:none;}
+.ft-location-link:hover p{color:rgba(255,255,255,.65);}
+.ft-location-link:hover svg{color:#25d366;}
+.ft-col-title{font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.ft-col ul a{color:rgba(255,255,255,.4);text-decoration:none;font-size:11px;font-weight:500;transition:color .2s;display:flex;align-items:center;gap:6px;}
+.ft-col ul a::before{content:'';width:4px;height:4px;border-radius:50%;background:#097bef;opacity:0;transition:opacity .2s;flex-shrink:0;}
+.ft-col ul a:hover{color:#fff;}
+.ft-col ul a:hover::before{opacity:1;}
+/* social grid */
+.ft-social-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ft-soc-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;text-decoration:none;cursor:none;transition:all .2s;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);}
+.ft-soc-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);transform:translateY(-1px);}
+.ft-soc-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ft-soc-name{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.ft-soc-btn:hover .ft-soc-name{color:#fff;}
+/* brand colors */
+.soc-ig .ft-soc-icon{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);}
+.soc-fb .ft-soc-icon{background:#1877f2;}
+.soc-wa .ft-soc-icon{background:#25d366;}
+.soc-yt .ft-soc-icon{background:#ff0000;}
+.soc-li .ft-soc-icon{background:#0077b5;}
+/* bottom bar */
+.ft-bot{padding:20px 80px;display:flex;justify-content:space-between;align-items:center;}
+.ft-copy{font-size:10px;color:rgba(255,255,255,.18);letter-spacing:.04em;}
+.ft-made{font-size:10px;color:rgba(255,255,255,.15);letter-spacing:.04em;}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
+
+/* ─── RESPONSIVE ─── */
+
+/* LAPTOP 1280px */
+@media(max-width:1280px){
+  nav,nav.s{padding:22px 40px;}
+  .hero-content{padding:140px 40px 100px;}
+  .hero-scroll{right:40px;}
+  .proj-head{padding:0 40px;}
+  .proj-grid{margin:0 40px;}
+  .proj-more{padding:40px 40px 8px;}
+  .srv-head{padding:0 40px;}
+  #servicios,#renta,#contacto{padding:72px 40px;}
+  .ft-top{padding:56px 40px 40px;}
+  .ft-bot{padding:20px 40px;}
+}
+
+/* TABLET 1024px */
+@media(max-width:1024px){
+  nav,nav.s{padding:18px 28px;}
+  .logo img{height:30px;}
+  .hero-content{padding:120px 28px 80px;}
+  .hero-h1{font-size:clamp(36px,6vw,64px);}
+  .hero-scroll{right:28px;}
+  /* hide floating icons on tablet/mobile */
+  .float-icon{display:none;}
+
+  .proj-head{padding:0 28px;}
+  .proj-grid{grid-template-columns:repeat(2,1fr);margin:0 28px;}
+  .proj-more{padding:32px 28px 8px;}
+
+  .srv-head{padding:0 28px;}
+  #servicios{padding:64px 28px;}
+  .srv-pills{gap:10px;}
+
+  #renta{padding:64px 28px;}
+  .renta-grid{grid-template-columns:1fr;}
+
+  #contacto{padding:64px 28px;}
+  .ct-card{grid-template-columns:1fr;}
+  .ct-left{border-right:none;border-bottom:1px solid rgba(17,18,37,.07);}
+
+  footer{padding:0;}
+  .ft-top{grid-template-columns:1fr;padding:48px 28px 36px;gap:36px;}
+  .ft-bot{padding:16px 28px;flex-direction:column;gap:6px;text-align:center;}
+}
+
+/* MOBILE 768px */
+@media(max-width:768px){
+  nav,nav.s{padding:16px 20px;}
+  .logo img{height:26px;}
+  /* hamburger — hide links, show only CTA */
+  .nav-r a:not(.nav-cta){display:none;}
+
+  #hero{min-height:80vh;}
+  .hero-content{padding:100px 20px 60px;}
+  .hero-h1{font-size:clamp(32px,8vw,52px);letter-spacing:-.01em;}
+  .hero-eyebrow{font-size:10px;}
+  .hero-sub{font-size:12px;}
+  .hero-blob1{width:300px;height:300px;}
+  .hero-blob2{width:200px;height:200px;}
+  .hero-scroll{display:none;}
+
+  .proj-head{padding:0 20px;}
+  .proj-grid{grid-template-columns:1fr;margin:0 20px;}
+  .proj-more{padding:28px 20px 8px;}
+  .sec-h2{font-size:clamp(24px,6vw,34px);}
+
+  #servicios{padding:56px 20px;}
+  .srv-head{padding:0;}
+  .srv-pills{gap:8px;}
+  .srv-pill{padding:12px 18px;}
+  .srv-pill span{font-size:11px;}
+
+  #renta{padding:56px 20px;}
+  .renta-card{padding:36px 28px;}
+  .renta-title{font-size:18px;}
+
+  #contacto{padding:56px 20px;}
+  .ct-left{padding:36px 28px;}
+  .ct-right{padding:36px 28px;}
+  .ct-btns{gap:10px;}
+  .ct-btn-wa,.ct-btn-email{padding:14px 18px;font-size:10px;}
+
+  .ft-top{grid-template-columns:1fr;padding:40px 20px 28px;gap:32px;}
+  .ft-social-grid{grid-template-columns:repeat(2,1fr);}
+  .ft-bot{padding:14px 20px;}
+
+  /* renta responsive header */
+  div[style*="padding:0 80px 40px"]{padding:0 20px 28px!important;}
+}
+
+/* MOBILE SMALL 480px */
+@media(max-width:480px){
+  .hero-h1{font-size:28px;}
+  .proj-grid{margin:0 12px;}
+  .proj-head{padding:0 12px;}
+  #servicios,#renta,#contacto{padding:48px 16px;}
+  .srv-pill{padding:10px 14px;}
+  .srv-pill span{font-size:10px;}
+  .srv-pill svg{width:16px;height:16px;}
+  .ft-top{padding:32px 16px 24px;}
+  .ft-social-grid{grid-template-columns:1fr 1fr;}
+  .ct-btn-wa,.ct-btn-email{padding:13px 16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="c"></div>
+<div class="cur-r" id="cr"></div>
+
+
+
+<!-- ══ MAIN ══ -->
+
+
+  <nav id="nav">
+  <a href="#" class="logo">
+    <img src="LOGO/1x/Recurso 1CINE+PLUS LOGO.png" alt="CINE+ RENTALS">
+  </a>
+    <div class="nav-r">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto" class="nav-cta">Contacto</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-blob1"></div>
+    <div class="hero-blob2"></div>
+    <div class="hero-grid"></div>
+
+    <!-- FLOATING ICONS -->
+    <div class="float-icon" id="fi1" style="top:18%;left:8%">
+      <img src="Recurso 1.png" alt="Cámara" draggable="false">
+      <span>Cámara</span>
+    </div>
+
+    <div class="float-icon" id="fi2" style="top:14%;right:10%">
+      <img src="Recurso 2.png" alt="Podcast" draggable="false">
+      <span>Podcast</span>
+    </div>
+
+    <div class="float-icon" id="fi3" style="top:65%;left:5%">
+      <img src="Recurso 1.png" alt="Iluminación" draggable="false">
+      <span>Iluminación</span>
+    </div>
+
+    <div class="float-icon" id="fi4" style="top:70%;right:7%">
+      <img src="Recurso 2.png" alt="Fotografía" draggable="false">
+      <span>Fotografía</span>
+    </div>
+
+    <div class="float-icon" id="fi5" style="top:40%;left:3%">
+      <img src="Recurso 1.png" alt="Clapperboard" draggable="false">
+      <span>Clapperboard</span>
+    </div>
+
+    <div class="float-icon" id="fi6" style="top:38%;right:4%">
+      <img src="Recurso 2.png" alt="Live" draggable="false">
+      <span>Live</span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Producción Audiovisual · Monterrey, MX</div>
+      <h1 class="hero-h1">
+        <span class="l">PRODUCCIÓN</span>
+        <span class="l">DE CINE</span>
+        <span class="l">Y RENTA</span>
+        <span class="l">DE EQUIPO.</span>
+      </h1>
+      <p class="hero-sub">Podcast, videos musicales, sesiones de foto, Facebook Lives y renta de equipo cine, video e iluminación.</p>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <div class="proj-head rv">
+      <div class="proj-head-left">
+        <div class="sec-label">Nuestro trabajo</div>
+        <h2 class="sec-h2">Proyectos</h2>
+      </div>
+    </div>
+
+    <div class="proj-grid">
+
+      <div class="proj-item rv">
+        <div class="proj-thumb pg1">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="6" width="40" height="32" rx="3"/><path d="M42 14l16-6v24l-16-6"/></svg></div>
+          <div class="proj-tag">Video Musical</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Video Musical</div>
+          <div class="proj-title">Noche Infinita<span class="proj-num">01</span></div>
+        </div>
+      </div>
+
+      <div class="proj-item rv d1">
+        <div class="proj-thumb pg2">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><circle cx="16" cy="20" r="9"/><path d="M4 44a12 12 0 0 1 24 0"/><circle cx="44" cy="20" r="9"/><path d="M32 44a12 12 0 0 1 24 0"/></svg></div>
+          <div class="proj-tag">Podcast</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Podcast</div>
+          <div class="proj-title">Studio Sessions<span class="proj-num">02</span></div>
+        </div>
+      </div>
+
+      <div class="proj-item rv d2">
+        <div class="proj-thumb pg3">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="8" width="38" height="28" rx="3"/><path d="M40 16l18-6v24l-18-6"/></svg></div>
+          <div class="proj-tag">Facebook Live</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Facebook Live</div>
+          <div class="proj-title">Lanzamiento en vivo<span class="proj-num">03</span></div>
+        </div>
+      </div>
+
+      <div class="proj-item rv">
+        <div class="proj-thumb pg4">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="4" width="56" height="40" rx="3"/><circle cx="30" cy="24" r="13"/><circle cx="30" cy="24" r="6"/></svg></div>
+          <div class="proj-tag">Fotografía</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Sesión de Fotos</div>
+          <div class="proj-title">Editorial Fashion<span class="proj-num">04</span></div>
+        </div>
+      </div>
+
+      <div class="proj-item rv d1">
+        <div class="proj-thumb pg5">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><circle cx="30" cy="20" r="10"/><line x1="30" y1="2" x2="30" y2="8"/><line x1="4" y1="20" x2="10" y2="20"/><line x1="50" y1="20" x2="56" y2="20"/><path d="M16 40h28"/></svg></div>
+          <div class="proj-tag">Iluminación</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Iluminación</div>
+          <div class="proj-title">Setup LED Profesional<span class="proj-num">05</span></div>
+        </div>
+      </div>
+
+      <div class="proj-item rv d2">
+        <div class="proj-thumb pg6">
+          <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="10" width="38" height="28" rx="3"/><circle cx="21" cy="24" r="8"/><rect x="42" y="16" width="16" height="16" rx="2"/></svg></div>
+          <div class="proj-tag">Gear</div>
+          <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        </div>
+        <div class="proj-info">
+          <div class="proj-cat">Renta de Equipo</div>
+          <div class="proj-title">Cinema Package<span class="proj-num">06</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="proj-more rv">
+      <a href="#" class="btn-more">
+        Ver todos los proyectos
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="srv-head rv">
+      <div class="sec-label">Lo que hacemos</div>
+      <h2 class="sec-h2">Servicios</h2>
+    </div>
+    <div class="srv-pills rv d1">
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="8" r="4"/><path d="M6 8a4 4 0 0 0 4 4 4 4 0 0 0 4-4M10 12v5M7 17h6"/></svg>
+        <span>Podcast</span>
+      </div>
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="5" width="13" height="10" rx="2"/><path d="M14 8l6-2.5v7L14 10"/></svg>
+        <span>Videos Musicales</span>
+      </div>
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="9"/></svg>
+        <span>Facebook Lives</span>
+      </div>
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="5" width="15" height="12" rx="2"/><circle cx="8.5" cy="11" r="3.5"/><path d="M13 5l2-3h2"/></svg>
+        <span>Sesión de Fotos</span>
+      </div>
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="6" width="11" height="9" rx="2"/><path d="M12 9l8-3v8l-8-3"/></svg>
+        <span>Renta de Equipo</span>
+      </div>
+
+      <div class="srv-pill">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="1" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="19" y2="10"/><line x1="3.5" y1="3.5" x2="5.5" y2="5.5"/><line x1="14.5" y1="3.5" x2="16.5" y2="5.5"/></svg>
+        <span>Iluminación</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RENTA -->
+  <section id="renta">
+    <div style="padding:0 80px 40px;" class="rv">
+      <div class="sec-label">Espacio y equipo</div>
+      <h2 class="sec-h2">Renta</h2>
+    </div>
+    <div class="renta-grid rv d1">
+
+      <div class="renta-card">
+        <div class="renta-num">01</div>
+        <svg class="renta-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="4" y="8" width="32" height="24" rx="3"/>
+          <circle cx="20" cy="20" r="7"/>
+          <circle cx="20" cy="20" r="3"/>
+          <rect x="14" y="4" width="12" height="4" rx="1.5"/>
+        </svg>
+        <div class="renta-title">Renta de Estudio</div>
+        <div class="renta-desc">Estudio completamente equipado con ciclorama, iluminación profesional y control room. Disponible por horas o día completo para cualquier tipo de producción.</div>
+        <a href="#contacto" class="renta-pill">Consultar disponibilidad →</a>
+      </div>
+
+      <div class="renta-card">
+        <div class="renta-num">02</div>
+        <svg class="renta-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="10" width="26" height="20" rx="3"/>
+          <path d="M29 16l8-4v12l-8-4"/>
+          <circle cx="16" cy="20" r="5"/>
+          <line x1="3" y1="34" x2="29" y2="34"/>
+        </svg>
+        <div class="renta-title">Renta de Equipo</div>
+        <div class="renta-desc">Cámaras cinema, lentes, rigs, gimbals, drones, audio profesional e iluminación. Todo revisado y listo para rodar. Catálogo completo próximamente.</div>
+        <a href="#contacto" class="renta-pill">Consultar disponibilidad →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="ct-card rv">
+
+      <!-- LEFT: texto -->
+      <div class="ct-left">
+        <h2>¿Tienes un<br>proyecto<br>en mente?</h2>
+        <p>Cuéntanos qué tienes en mente. Te respondemos rápido con una propuesta personalizada para tu producción en Monterrey.</p>
+        <div class="ct-info">
+          <div class="ct-item">
+            <div class="ct-ic"><svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="3" width="13" height="9" rx="1.5"/><path d="M1 4l6.5 4.5L14 4"/></svg></div>
+            <div><div class="ct-lbl">Email</div><div class="ct-val">hola@cineplusrentals.com</div></div>
+          </div>
+          <div class="ct-item">
+            <div class="ct-ic"><svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7.5 1.5A5 5 0 0 1 12.5 6.5c0 3.5-5 7-5 7s-5-3.5-5-7a5 5 0 0 1 5-5z"/><circle cx="7.5" cy="6.5" r="1.8"/></svg></div>
+            <div><div class="ct-lbl">Ubicación</div><div class="ct-val">Monterrey, Nuevo León</div></div>
+          </div>
+          <div class="ct-item">
+            <div class="ct-ic"><svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="13" height="13" rx="3.5"/><circle cx="7.5" cy="7.5" r="2.8"/><circle cx="10.8" cy="4.2" r=".5" fill="currentColor"/></svg></div>
+            <div><div class="ct-lbl">Instagram</div><div class="ct-val">@cineplusproducciones</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: botones -->
+      <div class="ct-right">
+        <div class="ct-right-top">
+          <h3>Escríbenos directo</h3>
+          <div class="ct-btns">
+            <a href="https://wa.me/528180166377" class="ct-btn-wa">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.7a.75.75 0 0 0 .906.919l6.01-1.51A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.127-1.415l-.368-.217-3.811.957.988-3.7-.24-.381A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              Escribir por WhatsApp
+            </a>
+            <a href="https://www.instagram.com/cineplusproducciones/" target="_blank" class="ct-btn-email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              Ver en Instagram
+            </a>
+          </div>
+        </div>
+        <p class="ct-note">Respondemos en menos de 24 horas. También puedes encontrarnos en Instagram como @cineplusproducciones.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="ft-top">
+
+      <!-- BRAND + UBICACIÓN -->
+      <div class="ft-brand">
+        <div class="ft-logo">CINE+ RENTALS</div>
+        <div class="ft-tag">Producción audiovisual profesional en Monterrey, México.</div>
+        <a href="https://maps.app.goo.gl/4oMCrEVXEXPBnWV38" target="_blank" class="ft-location ft-location-link">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5A5.5 5.5 0 0 1 13.5 7c0 4-5.5 7.5-5.5 7.5S2.5 11 2.5 7A5.5 5.5 0 0 1 8 1.5z"/><circle cx="8" cy="7" r="2"/></svg>
+          <p><strong>Cine + Estudio</strong>Río Amacuzac 218, Residencial San Agustín 1er Sector,<br>66260 San Pedro Garza García, N.L.</p>
+        </a>
+        <div class="ft-location">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 4.5l7 5 7-5"/></svg>
+          <p>hola@cineplusrentals.com</p>
+        </div>
+        <div class="ft-location">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10.2c-.2.3-.4.6-.8.9-.7.5-1.5.5-2.2.2L4.4 5.7C3.9 5 3.9 4.2 4.4 3.6c.3-.3.5-.6.9-.8"/></svg>
+          <p>81 8016 6377</p>
+        </div>
+      </div>
+
+      <!-- REDES SOCIALES -->
+      <div class="ft-col">
+        <div class="ft-col-title">Síguenos</div>
+        <div class="ft-social-grid">
+          <a href="https://www.instagram.com/cineplusproducciones/" target="_blank" class="ft-soc-btn soc-ig">
+            <div class="ft-soc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg></div>
+            <span class="ft-soc-name">Instagram</span>
+          </a>
+          <a href="https://facebook.com" target="_blank" class="ft-soc-btn soc-fb">
+            <div class="ft-soc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+            <span class="ft-soc-name">Facebook</span>
+          </a>
+          <a href="https://wa.me/528180166377" target="_blank" class="ft-soc-btn soc-wa">
+            <div class="ft-soc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.7a.75.75 0 0 0 .906.919l6.01-1.51A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.127-1.415l-.368-.217-3.811.957.988-3.7-.24-.381A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+            <span class="ft-soc-name">WhatsApp</span>
+          </a>
+          <a href="https://youtube.com" target="_blank" class="ft-soc-btn soc-yt">
+            <div class="ft-soc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></div>
+            <span class="ft-soc-name">YouTube</span>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="ft-soc-btn soc-li" style="grid-column:span 2;">
+            <div class="ft-soc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <span class="ft-soc-name">LinkedIn</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ft-bot">
+      <div class="ft-copy">© 2025 CINE+ RENTALS · Todos los derechos reservados.</div>
+      <div class="ft-made">San Pedro Garza García, N.L. · México</div>
+    </div>
+  </footer>
+
+
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('c'),curR=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.srv-row,.proj-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='5px';cur.style.height='5px';curR.style.width='42px';curR.style.height='42px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';curR.style.width='30px';curR.style.height='30px';});
+});
+
+/* ── FLOATING ICONS DRAG ── */
+document.querySelectorAll('.float-icon').forEach(el => {
+  let dragging = false, ox = 0, oy = 0, startX = 0, startY = 0;
+  const rect = () => el.getBoundingClientRect();
+
+  el.addEventListener('mousedown', e => {
+    dragging = true;
+    el.classList.add('dragging');
+    const r = rect();
+    ox = e.clientX - r.left; oy = e.clientY - r.top;
+    // convert to absolute positioning
+    el.style.left = r.left + 'px';
+    el.style.top = r.top + 'px';
+    el.style.right = 'auto';
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    el.style.left = (e.clientX - ox) + 'px';
+    el.style.top  = (e.clientY - oy) + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    dragging = false;
+    el.classList.remove('dragging');
+  });
+
+  // touch support
+  el.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    dragging = true; el.classList.add('dragging');
+    const r = rect();
+    ox = t.clientX - r.left; oy = t.clientY - r.top;
+    el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.right = 'auto';
+    e.preventDefault();
+  }, {passive:false});
+
+  document.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    const t = e.touches[0];
+    el.style.left = (t.clientX - ox) + 'px';
+    el.style.top  = (t.clientY - oy) + 'px';
+  }, {passive:true});
+
+  document.addEventListener('touchend', () => { dragging = false; el.classList.remove('dragging'); });
+});
+
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
