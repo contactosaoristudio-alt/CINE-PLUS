@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renta de Estudio — CINE+ RENTALS</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:#f5f6fa;color:#111225;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cur{width:8px;height:8px;background:#111225;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cur-r{width:30px;height:30px;border:1px solid rgba(17,18,37,.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:24px 80px;transition:padding .3s,background .3s;}
+nav.s{padding:14px 80px;background:rgba(245,246,250,.97);border-bottom:1px solid rgba(17,18,37,.08);backdrop-filter:blur(12px);}
+.logo{display:flex;align-items:center;text-decoration:none;}
+.logo img{height:34px;width:auto;display:block;transition:height .3s,filter .3s;filter:invert(1);}
+nav.s .logo img{height:26px;filter:invert(1) brightness(0);}
+.nav-r{display:flex;align-items:center;gap:28px;}
+.nav-r a{color:rgba(255,255,255,.7);text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;transition:color .2s;cursor:none;}
+.nav-r a:hover{color:#fff;}
+nav.s .nav-r a{color:rgba(17,18,37,.5);}
+nav.s .nav-r a:hover{color:#111225;}
+.nav-back{display:flex;align-items:center;gap:7px;}
+.nav-cta{border:1px solid rgba(255,255,255,.35)!important;color:rgba(255,255,255,.8)!important;background:rgba(255,255,255,.07);padding:8px 18px;}
+.nav-cta:hover{background:rgba(255,255,255,.15)!important;color:#fff!important;border-color:#fff!important;}
+nav.s .nav-cta{border:1px solid rgba(9,123,239,.5)!important;color:#097bef!important;background:rgba(9,123,239,.08)!important;}
+nav.s .nav-cta:hover{background:#097bef!important;color:#fff!important;}
+
+/* HERO */
+#hero{min-height:56vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;background:#111225;}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(9,123,239,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(9,123,239,.06) 1px,transparent 1px);background-size:60px 60px;}
+.hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.18) 0%,transparent 65%);top:-200px;right:-100px;pointer-events:none;}
+.hero-glow2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(32,60,140,.15) 0%,transparent 65%);bottom:-100px;left:-80px;pointer-events:none;}
+.hero-inner{position:relative;z-index:2;padding:140px 80px 64px;width:100%;}
+.hero-eyebrow{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:16px;opacity:0;animation:fu .7s .1s forwards;}
+.hero-eyebrow::before{content:'';width:18px;height:2px;background:#097bef;border-radius:2px;}
+.hero-h1{font-size:clamp(40px,5.5vw,76px);font-weight:800;line-height:.94;letter-spacing:-.02em;text-transform:uppercase;color:#fff;margin-bottom:16px;opacity:0;animation:fu .85s .25s forwards;}
+.hero-h1 span{color:#097bef;}
+.hero-sub{font-size:13px;line-height:1.8;color:rgba(255,255,255,.4);max-width:520px;opacity:0;animation:fu .85s .4s forwards;}
+/* feature pills in hero */
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;opacity:0;animation:fu .85s .55s forwards;}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:9px 16px;border-radius:999px;backdrop-filter:blur(8px);cursor:default;}
+.hero-pill svg{color:#097bef;flex-shrink:0;}
+.hero-pill span{font-size:10px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.65);}
+@keyframes fu{to{opacity:1;transform:translateY(0);}}
+
+/* SHARED */
+.sec-label{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sec-label::before{content:'';width:18px;height:2px;background:#097bef;border-radius:2px;}
+.sec-h2{font-size:clamp(24px,3vw,38px);font-weight:800;letter-spacing:-.02em;line-height:1.05;color:#111225;}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease;}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}.d4{transition-delay:.32s;}.d5{transition-delay:.4s;}.d6{transition-delay:.48s;}
+
+/* GALERÍA — CARRUSEL PEEK */
+#galeria{padding:80px 80px;background:#f5f6fa;border-bottom:1px solid rgba(17,18,37,.08);}
+.gal-head{margin-bottom:32px;}
+/* outer: clips overflow, adds side padding so neighbours peek */
+.carousel-outer{overflow:hidden;padding:0 48px;margin:0 -48px;position:relative;}
+.carousel-wrap{position:relative;}
+.carousel-track{display:flex;gap:16px;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+/* each slide = 80% of outer width so neighbours peek */
+.carousel-slide{min-width:80%;height:460px;position:relative;overflow:hidden;flex-shrink:0;border-radius:4px;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s ease;}
+.carousel-slide.active img{transform:scale(1.02);}
+.carousel-ph{width:100%;height:100%;background:linear-gradient(145deg,#111225,#20254a);display:flex;align-items:center;justify-content:center;opacity:.08;}
+.carousel-label{position:absolute;bottom:16px;left:20px;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);background:rgba(17,18,37,.6);backdrop-filter:blur(6px);padding:5px 12px;border-radius:999px;}
+/* bottom controls row */
+.car-controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px;}
+.car-dots{display:flex;gap:6px;}
+.car-dot{width:6px;height:6px;border-radius:50%;background:rgba(17,18,37,.18);transition:all .3s;cursor:none;}
+.car-dot.active{background:#097bef;width:20px;border-radius:3px;}
+.car-counter{font-size:9px;font-weight:700;letter-spacing:.2em;color:rgba(17,18,37,.3);}
+.car-arrows{display:flex;gap:8px;}
+.car-btn{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid rgba(17,18,37,.1);display:flex;align-items:center;justify-content:center;cursor:none;transition:all .2s;color:#111225;box-shadow:0 2px 8px rgba(17,18,37,.08);}
+.car-btn:hover{background:#097bef;border-color:#097bef;color:#fff;box-shadow:0 4px 16px rgba(9,123,239,.3);}
+
+/* CARACTERÍSTICAS */
+#caracteristicas{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);}
+.feat-head{margin-bottom:48px;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(17,18,37,.07);}
+.feat-item{background:#fff;padding:32px 28px;transition:background .25s;cursor:none;position:relative;overflow:hidden;}
+.feat-item:hover{background:#f0f3ff;}
+.feat-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#097bef,#203c8c);transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.feat-item:hover::after{transform:scaleX(1);}
+.feat-icon{color:#097bef;margin-bottom:18px;transition:transform .3s;}
+.feat-item:hover .feat-icon{transform:scale(1.1);}
+.feat-name{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#111225;margin-bottom:8px;}
+.feat-desc{font-size:11px;font-weight:400;line-height:1.75;color:rgba(17,18,37,.45);}
+
+/* INCLUYE */
+#incluye{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.inc-left h2{margin-bottom:14px;}
+.inc-left p{font-size:13px;line-height:1.9;color:rgba(17,18,37,.45);margin-top:16px;}
+.inc-list{display:flex;flex-direction:column;}
+.inc-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(17,18,37,.07);}
+.inc-item:first-child{border-top:1px solid rgba(17,18,37,.07);}
+.inc-check{width:26px;height:26px;border-radius:50%;background:rgba(9,123,239,.08);border:1px solid rgba(9,123,239,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#097bef;}
+.inc-text{font-size:12px;font-weight:500;color:#111225;letter-spacing:.01em;}
+
+/* MODALIDADES */
+#modalidades{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);}
+.mod-head{margin-bottom:48px;}
+.mod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mod-card{padding:36px 28px;border:1px solid rgba(17,18,37,.08);background:#fff;position:relative;overflow:hidden;transition:all .3s;cursor:none;}
+.mod-card:hover{border-color:rgba(9,123,239,.2);box-shadow:0 8px 32px rgba(9,123,239,.08);transform:translateY(-3px);}
+.mod-card.featured{background:linear-gradient(145deg,#111225,#20254a);border-color:rgba(9,123,239,.2);}
+.mod-card.featured:hover{box-shadow:0 8px 32px rgba(9,123,239,.25);}
+.mod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#097bef,#203c8c);transform:scaleX(0);transition:transform .4s;}
+.mod-card:hover::before{transform:scaleX(1);}
+.mod-card.featured::before{transform:scaleX(1);}
+.mod-tag{font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(17,18,37,.3);margin-bottom:20px;}
+.mod-card.featured .mod-tag{color:rgba(221,225,243,.3);}
+.mod-icon{color:#097bef;margin-bottom:16px;}
+.mod-name{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#111225;margin-bottom:10px;}
+.mod-card.featured .mod-name{color:#fff;}
+.mod-desc{font-size:11px;line-height:1.75;color:rgba(17,18,37,.45);margin-bottom:24px;}
+.mod-card.featured .mod-desc{color:rgba(221,225,243,.45);}
+.mod-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:28px;}
+.mod-feat{display:flex;align-items:center;gap:8px;font-size:10px;color:rgba(17,18,37,.5);}
+.mod-feat::before{content:'';width:4px;height:4px;border-radius:50%;background:#097bef;flex-shrink:0;}
+.mod-card.featured .mod-feat{color:rgba(221,225,243,.5);}
+.mod-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:rgba(9,123,239,.08);border:1px solid rgba(9,123,239,.2);color:#097bef;}
+.mod-btn:hover{background:#097bef;color:#fff;box-shadow:0 4px 16px rgba(9,123,239,.3);}
+.mod-card.featured .mod-btn{background:rgba(9,123,239,.25);border-color:rgba(9,123,239,.4);color:rgba(221,225,243,.9);}
+.mod-card.featured .mod-btn:hover{background:#097bef;color:#fff;}
+
+/* UBICACIÓN */
+#ubicacion{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.ubi-left h2{margin-bottom:14px;}
+.ubi-left p{font-size:13px;line-height:1.9;color:rgba(17,18,37,.45);margin-top:12px;margin-bottom:28px;}
+.ubi-address{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;background:#fff;border:1px solid rgba(17,18,37,.08);margin-bottom:20px;}
+.ubi-address svg{color:#097bef;flex-shrink:0;margin-top:2px;}
+.ubi-address p{font-size:12px;line-height:1.7;color:rgba(17,18,37,.6);}
+.ubi-address p strong{color:#111225;display:block;margin-bottom:2px;font-size:13px;}
+.ubi-map-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(135deg,#097bef,#203c8c);color:#fff;box-shadow:0 3px 14px rgba(9,123,239,.25);}
+.ubi-map-btn:hover{box-shadow:0 5px 22px rgba(9,123,239,.4);transform:translateY(-1px);}
+/* map placeholder */
+.ubi-map{background:linear-gradient(145deg,#111225,#20254a);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid rgba(9,123,239,.15);}
+.ubi-map svg{opacity:.08;color:white;}
+.ubi-map-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+.ubi-map-pin{width:48px;height:48px;background:#097bef;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(9,123,239,.4);}
+.ubi-map-pin svg{transform:rotate(45deg);color:#fff;}
+.ubi-map-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+/* replace with real map: <iframe src="https://maps.google.com/maps?q=..." width="100%" height="100%" style="border:0;"></iframe> */
+
+/* CTA FINAL */
+#cta-final{padding:80px 80px;background:#111225;position:relative;overflow:hidden;}
+#cta-final::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.18),transparent 60%);top:-200px;right:-100px;}
+.cta-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;}
+.cta-inner h2{font-size:clamp(24px,3.5vw,44px);font-weight:300;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:10px;}
+.cta-inner h2 strong{font-weight:800;display:block;}
+.cta-inner p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.8;max-width:420px;}
+.cta-btns{display:flex;flex-direction:column;gap:10px;align-items:flex-end;flex-shrink:0;}
+.pill-wa{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(145deg,#25d366,#128c7e);box-shadow:0 4px 20px rgba(37,211,102,.3);color:#fff;}
+.pill-wa:hover{box-shadow:0 6px 28px rgba(37,211,102,.5);transform:translateY(-2px);}
+.pill-ig{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(145deg,#833ab4,#fd1d1d,#fcb045);box-shadow:0 4px 20px rgba(131,58,180,.3);color:#fff;}
+.pill-ig:hover{box-shadow:0 6px 28px rgba(131,58,180,.5);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{background:#0c0e1c;border-top:1px solid rgba(255,255,255,.04);}
+.ft-bot{padding:22px 80px;display:flex;justify-content:space-between;align-items:center;}
+.ft-copy{font-size:10px;color:rgba(255,255,255,.18);}
+.ft-back-link{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s;cursor:none;}
+.ft-back-link:hover{color:#fff;}
+.ft-logo-ft{font-size:12px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.4);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav,nav.s{padding:16px 28px;}
+  .hero-inner{padding:100px 28px 52px;}
+
+  #caracteristicas,#modalidades,#cta-final{padding:56px 28px;}
+  #incluye,#ubicacion{padding:56px 28px;grid-template-columns:1fr;}
+  .feat-grid{grid-template-columns:repeat(2,1fr);}
+  .mod-grid{grid-template-columns:1fr;}
+  #galeria{padding:48px 24px;}
+  .carousel-outer{padding:0 24px;margin:0 -24px;}
+  .carousel-slide{min-width:85%;height:340px;}
+  .cta-inner{grid-template-columns:1fr;}
+  .cta-btns{align-items:flex-start;}
+  .ft-bot{padding:16px 28px;flex-direction:column;gap:8px;text-align:center;}
+}
+@media(max-width:640px){
+  nav,nav.s{padding:14px 20px;}
+  .nav-r a:not(.nav-cta):not(.nav-back){display:none;}
+  .hero-inner{padding:90px 20px 44px;}
+  #caracteristicas,#modalidades,#incluye,#ubicacion,#cta-final{padding:48px 20px;}
+  .feat-grid{grid-template-columns:1fr;}
+  #galeria{padding:32px 16px;}
+  .carousel-outer{padding:0 16px;margin:0 -16px;}
+  .carousel-slide{min-width:90%;height:240px;}
+  .ft-bot{padding:14px 20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="c"></div>
+<div class="cur-r" id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <img src="LOGO/1x/Recurso 1CINE+PLUS LOGO.png" alt="CINE+ RENTALS">
+  </a>
+  <div class="nav-r">
+    <a href="index.html" class="nav-back"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>Inicio</a>
+    <a href="renta-equipo.html">Renta Equipo</a>
+    <a href="index.html#contacto" class="nav-cta">Cotizar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Renta de Estudio</div>
+    <h1 class="hero-h1">ESTUDIO<br><span>CINE+</span><br>PROFESIONAL</h1>
+    <p class="hero-sub">Espacio completamente equipado para cualquier tipo de producción audiovisual. Ciclorama, iluminación profesional y control room en San Pedro Garza García.</p>
+    <div class="hero-pills">
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="10" rx="2"/><circle cx="8" cy="8" r="3"/></svg><span>Ciclorama</span></div>
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="7" r="4"/><line x1="8" y1="1" x2="8" y2="3"/><line x1="1" y1="7" x2="3" y2="7"/><line x1="13" y1="7" x2="15" y2="7"/><path d="M5 12h6"/></svg><span>Iluminación LED</span></div>
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="10" height="8" rx="2"/><path d="M11 5.5l5-2v7l-5-2"/></svg><span>Control Room</span></div>
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="7" r="4"/><path d="M4 7a4 4 0 0 0 4 4 4 4 0 0 0 4-4M8 11v3M5 14h6"/></svg><span>Fondo Negro</span></div>
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="14" height="10" rx="2"/><line x1="5" y1="14" x2="11" y2="14"/><line x1="8" y1="12" x2="8" y2="14"/></svg><span>Internet Fibra</span></div>
+      <div class="hero-pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5A5.5 5.5 0 0 1 13.5 7c0 4-5.5 7-5.5 7S2.5 11 2.5 7A5.5 5.5 0 0 1 8 1.5z"/><circle cx="8" cy="7" r="2"/></svg><span>San Pedro GGG</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA — CARRUSEL -->
+<section id="galeria">
+  <div class="gal-head rv">
+    <div class="sec-label">Nuestro espacio</div>
+    <h2 class="sec-h2">El estudio</h2>
+  </div>
+  <div class="carousel-outer">
+  <div class="carousel-wrap">
+  <div class="carousel-track" id="carTrack">
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto1.jpg" alt="Set principal"> -->
+      <div class="carousel-ph"><svg width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="white" stroke-width="1"><rect x="6" y="10" width="80" height="56" rx="5"/><path d="M86 26l28-10v32l-28-10"/><circle cx="46" cy="38" r="14"/><circle cx="46" cy="38" r="6"/></svg></div>
+      <div class="carousel-label">Set principal</div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto2.jpg" alt="Ciclorama"> -->
+      <div class="carousel-ph"><svg width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="white" stroke-width="1"><rect x="4" y="6" width="112" height="68" rx="5"/><circle cx="60" cy="40" r="18"/><circle cx="60" cy="40" r="8"/></svg></div>
+      <div class="carousel-label">Ciclorama</div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto3.jpg" alt="Iluminación"> -->
+      <div class="carousel-ph"><svg width="100" height="80" viewBox="0 0 100 80" fill="none" stroke="white" stroke-width="1"><circle cx="50" cy="32" rx="14"/><circle cx="50" cy="32" r="14"/><line x1="50" y1="8" x2="50" y2="16"/><line x1="14" y1="32" x2="22" y2="32"/><line x1="78" y1="32" x2="86" y2="32"/><path d="M28 62h44M34 68h32"/></svg></div>
+      <div class="carousel-label">Iluminación</div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto4.jpg" alt="Control Room"> -->
+      <div class="carousel-ph"><svg width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="white" stroke-width="1"><rect x="4" y="14" width="112" height="44" rx="4"/><line x1="24" y1="14" x2="24" y2="58"/><line x1="44" y1="14" x2="44" y2="58"/><line x1="64" y1="14" x2="64" y2="58"/><line x1="84" y1="14" x2="84" y2="58"/><line x1="104" y1="14" x2="104" y2="58"/></svg></div>
+      <div class="carousel-label">Control Room</div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto5.jpg" alt="Fondo Negro"> -->
+      <div class="carousel-ph"><svg width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="white" stroke-width="1"><rect x="4" y="6" width="112" height="68" rx="5" fill="rgba(0,0,0,.3)"/><circle cx="60" cy="38" r="16"/><path d="M44 66h32"/></svg></div>
+      <div class="carousel-label">Fondo Negro</div>
+    </div>
+
+    <div class="carousel-slide">
+      <!-- <img src="estudio/foto6.jpg" alt="Vestidor"> -->
+      <div class="carousel-ph"><svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="white" stroke-width="1"><line x1="40" y1="6" x2="40" y2="74"/><line x1="14" y1="22" x2="66" y2="22"/><line x1="8" y1="68" x2="72" y2="68"/></svg></div>
+      <div class="carousel-label">Área de vestidor</div>
+    </div>
+
+  </div>
+
+  </div><!-- /carousel-track -->
+  </div><!-- /carousel-wrap -->
+  </div><!-- /carousel-outer -->
+  <div class="car-controls rv">
+    <div class="car-dots" id="carDots"></div>
+    <div class="car-counter" id="carCounter">1 / 6</div>
+    <div class="car-arrows">
+      <button class="car-btn car-prev" id="carPrev" aria-label="Anterior">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>
+      </button>
+      <button class="car-btn car-next" id="carNext" aria-label="Siguiente">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CARACTERÍSTICAS -->
+<section id="caracteristicas">
+  <div class="feat-head rv">
+    <div class="sec-label">El espacio</div>
+    <h2 class="sec-h2">Características del estudio</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-item rv">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="26" height="26" rx="3"/><path d="M3 12h26M12 12v17"/></svg>
+      <div class="feat-name">Ciclorama</div>
+      <div class="feat-desc">Ciclorama blanco de piso a techo, perfecto para fondos infinitos. Lavable y listo para cualquier tipo de producción.</div>
+    </div>
+    <div class="feat-item rv d1">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="16" cy="13" r="6"/><line x1="16" y1="3" x2="16" y2="6"/><line x1="3" y1="13" x2="6" y2="13"/><line x1="26" y1="13" x2="29" y2="13"/><line x1="6.5" y1="6.5" x2="9" y2="9"/><line x1="23" y1="6.5" x2="25.5" y2="9"/><path d="M10 26h12M12 29h8"/></svg>
+      <div class="feat-name">Iluminación LED</div>
+      <div class="feat-desc">Panels LED regulables bi-color (3200K–5600K) incluidos. HMI disponible bajo solicitud. Control de temperatura y potencia.</div>
+    </div>
+    <div class="feat-item rv d2">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M21 11l8-4v12l-8-4"/><rect x="5" y="22" width="12" height="6" rx="1"/></svg>
+      <div class="feat-name">Control Room</div>
+      <div class="feat-desc">Sala de control con monitores de referencia, switcher de video y sistema de audio profesional integrado.</div>
+    </div>
+    <div class="feat-item rv">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="16" cy="11" r="5"/><path d="M8 27a8 8 0 0 1 16 0"/><circle cx="25" cy="9" r="3"/><circle cx="7" cy="9" r="3"/></svg>
+      <div class="feat-name">Capacidad</div>
+      <div class="feat-desc">Hasta 20 personas en set cómodamente. Área de maquillaje, vestidor y zona de descanso para el equipo de producción.</div>
+    </div>
+    <div class="feat-item rv d1">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="7" width="26" height="16" rx="2"/><circle cx="16" cy="15" r="5"/><path d="M10 27h12M8 29h16"/></svg>
+      <div class="feat-name">Fondo Negro</div>
+      <div class="feat-desc">Fondo negro disponible además del ciclorama blanco. Ideal para videos musicales, entrevistas y producción de podcast.</div>
+    </div>
+    <div class="feat-item rv d2">
+      <svg class="feat-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 22V10a2 2 0 0 1 2-2h18a2 2 0 0 1 2 2v12"/><path d="M3 22h26v4H3z"/><line x1="16" y1="22" x2="16" y2="26"/></svg>
+      <div class="feat-name">Internet & Energía</div>
+      <div class="feat-desc">Fibra óptica de alta velocidad, aire acondicionado, estacionamiento incluido y tomas eléctricas de alta potencia en todo el set.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section id="incluye">
+  <div class="inc-left rv">
+    <div class="sec-label">Sin costo adicional</div>
+    <h2 class="sec-h2">Todo lo que incluye tu renta</h2>
+    <p>Cada reservación incluye los siguientes elementos. Solo enfócate en crear, nosotros ponemos el espacio.</p>
+  </div>
+  <div class="inc-list rv d1">
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Ciclorama blanco (piso a techo)</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Kit de iluminación LED bi-color</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Control room con monitores de referencia</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Área de maquillaje y vestidor</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Internet fibra óptica de alta velocidad</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Estacionamiento para el equipo</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Aire acondicionado y calefacción</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Tomas eléctricas de alta potencia</span></div>
+    <div class="inc-item"><div class="inc-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-5"/></svg></div><span class="inc-text">Asistente de set (paquetes de día completo)</span></div>
+  </div>
+</section>
+
+<!-- MODALIDADES -->
+<section id="modalidades">
+  <div class="mod-head rv">
+    <div class="sec-label">Disponibilidad</div>
+    <h2 class="sec-h2">Modalidades de renta</h2>
+  </div>
+  <div class="mod-grid rv d1">
+    <div class="mod-card">
+      <div class="mod-tag">01 — Por horas</div>
+      <svg class="mod-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="14" cy="14" r="11"/><path d="M14 8v6l4 3"/></svg>
+      <div class="mod-name">Hourly</div>
+      <div class="mod-desc">Ideal para sesiones cortas, entrevistas, contenido digital y pruebas de set. Mínimo 2 horas.</div>
+      <div class="mod-feats">
+        <div class="mod-feat">Ciclorama incluido</div>
+        <div class="mod-feat">Iluminación básica</div>
+        <div class="mod-feat">Control room</div>
+        <div class="mod-feat">Hasta 8 personas</div>
+      </div>
+      <a href="https://wa.me/528180166377?text=Hola%21+Me+interesa+rentar+el+estudio+por+horas" target="_blank" class="mod-btn">Consultar →</a>
+    </div>
+    <div class="mod-card featured">
+      <div class="mod-tag">02 — Medio día</div>
+      <svg class="mod-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#097bef" stroke-width="1.3"><circle cx="14" cy="14" r="11"/><path d="M14 8v6l4 3"/><line x1="14" y1="3" x2="14" y2="1"/></svg>
+      <div class="mod-name">Half Day</div>
+      <div class="mod-desc">La opción más popular. 4 horas continuas con acceso completo al estudio y equipo de iluminación.</div>
+      <div class="mod-feats">
+        <div class="mod-feat">Todo lo del Hourly</div>
+        <div class="mod-feat">Kit iluminación completo</div>
+        <div class="mod-feat">Asistente incluido</div>
+        <div class="mod-feat">Hasta 15 personas</div>
+      </div>
+      <a href="https://wa.me/528180166377?text=Hola%21+Me+interesa+rentar+el+estudio+medio+d%C3%ADa" target="_blank" class="mod-btn">Consultar →</a>
+    </div>
+    <div class="mod-card">
+      <div class="mod-tag">03 — Día completo</div>
+      <svg class="mod-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="14" cy="14" r="11"/><path d="M14 8v6l4 3"/><line x1="3" y1="14" x2="1" y2="14"/><line x1="27" y1="14" x2="25" y2="14"/></svg>
+      <div class="mod-name">Full Day</div>
+      <div class="mod-desc">8 horas continuas para producciones grandes, videos musicales, sesiones editoriales o campañas completas.</div>
+      <div class="mod-feats">
+        <div class="mod-feat">Todo lo del Half Day</div>
+        <div class="mod-feat">2 asistentes de set</div>
+        <div class="mod-feat">Hasta 20 personas</div>
+        <div class="mod-feat">Acceso prioritario</div>
+      </div>
+      <a href="https://wa.me/528180166377?text=Hola%21+Me+interesa+rentar+el+estudio+d%C3%ADa+completo" target="_blank" class="mod-btn">Consultar →</a>
+    </div>
+  </div>
+</section>
+
+<!-- UBICACIÓN -->
+<section id="ubicacion">
+  <div class="ubi-left rv">
+    <div class="sec-label">¿Cómo llegar?</div>
+    <h2 class="sec-h2">Ubicación</h2>
+    <p>Estamos en San Pedro Garza García, a unos minutos de Monterrey. Contamos con estacionamiento privado para el equipo de producción.</p>
+    <div class="ubi-address">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1.5A6.5 6.5 0 0 1 15.5 8c0 4.5-6.5 8.5-6.5 8.5S2.5 12.5 2.5 8A6.5 6.5 0 0 1 9 1.5z"/><circle cx="9" cy="8" r="2"/></svg>
+      <p><strong>Cine+ Estudio</strong>Río Amacuzac 218, Residencial San Agustín 1er Sector,<br>66260 San Pedro Garza García, N.L.</p>
+    </div>
+    <a href="https://maps.app.goo.gl/4oMCrEVXEXPBnWV38" target="_blank" class="ubi-map-btn">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5A5.5 5.5 0 0 1 13.5 7c0 4-5.5 7-5.5 7S2.5 11 2.5 7A5.5 5.5 0 0 1 8 1.5z"/><circle cx="8" cy="7" r="2"/></svg>
+      Ver en Google Maps
+    </a>
+  </div>
+  <div class="ubi-map rv d2">
+    <!-- Reemplaza con iframe real: <iframe src="https://maps.google.com/maps?q=Río+Amacuzac+218,San+Pedro+Garza+García&output=embed" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy"></iframe> -->
+    <svg width="140" height="100" viewBox="0 0 140 100" fill="none" stroke="white" stroke-width="1"><rect x="4" y="4" width="132" height="92" rx="4"/><line x1="35" y1="4" x2="35" y2="96"/><line x1="70" y1="4" x2="70" y2="96"/><line x1="105" y1="4" x2="105" y2="96"/><line x1="4" y1="33" x2="136" y2="33"/><line x1="4" y1="66" x2="136" y2="66"/></svg>
+    <div class="ubi-map-overlay">
+      <div class="ubi-map-pin"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 1.5A5 5 0 0 1 13 6.5c0 3.5-5 7-5 7S3 10 3 6.5A5 5 0 0 1 8 1.5z"/><circle cx="8" cy="6" r="1.8"/></svg></div>
+      <span class="ubi-map-label">San Pedro Garza García</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final">
+  <div class="cta-inner rv">
+    <div>
+      <h2><strong>¿Listo para reservar</strong>el estudio?</h2>
+      <p>Escríbenos con la fecha y horas que necesitas. Te confirmamos disponibilidad en menos de 2 horas. También podemos agendar una visita al estudio sin costo.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/528180166377?text=Hola%21+Me+interesa+reservar+el+estudio+Cine%2B" class="pill-wa">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.7a.75.75 0 0 0 .906.919l6.01-1.51A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.127-1.415l-.368-.217-3.811.957.988-3.7-.24-.381A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Reservar por WhatsApp
+      </a>
+      <a href="https://www.instagram.com/cineplusproducciones/" target="_blank" class="pill-ig">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        Ver en Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-bot">
+    <div class="ft-logo-ft">CINE+ RENTALS</div>
+    <a href="index.html" class="ft-back-link"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2L4 7l5 5"/></svg>Volver al inicio</a>
+    <div class="ft-copy">© 2025 CINE+ RENTALS · San Pedro Garza García, N.L.</div>
+  </div>
+</footer>
+
+<script>
+const c=document.getElementById('c'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.feat-item,.mod-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{c.style.width='5px';c.style.height='5px';cr.style.width='40px';cr.style.height='40px';});
+  el.addEventListener('mouseleave',()=>{c.style.width='8px';c.style.height='8px';cr.style.width='30px';cr.style.height='30px';});
+});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+
+/* CARRUSEL PEEK */
+(function(){
+  const track = document.getElementById('carTrack');
+  const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+  const total = slides.length;
+  const dotsEl = document.getElementById('carDots');
+  const counter = document.getElementById('carCounter');
+  let cur = 0, timer;
+  const GAP = 16;
+
+  slides.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'car-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function slideW(){ return slides[0].offsetWidth + GAP; }
+
+  function update(){
+    track.style.transform = `translateX(-${cur * slideW()}px)`;
+    slides.forEach((s,i)=>s.classList.toggle('active',i===cur));
+    dotsEl.querySelectorAll('.car-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+    counter.textContent = `${cur+1} / ${total}`;
+  }
+
+  function goTo(n){
+    cur = Math.max(0, Math.min(n, total-1));
+    update();
+    resetTimer();
+  }
+
+  function resetTimer(){
+    clearInterval(timer);
+    timer = setInterval(()=>goTo(cur < total-1 ? cur+1 : 0), 4000);
+  }
+
+  document.getElementById('carPrev').addEventListener('click',()=>goTo(cur-1));
+  document.getElementById('carNext').addEventListener('click',()=>goTo(cur+1));
+
+  let startX=0;
+  track.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
+  track.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-startX;
+    if(Math.abs(dx)>40) goTo(dx<0?cur+1:cur-1);
+  });
+
+  const wrap=document.querySelector('.carousel-outer');
+  wrap.addEventListener('mouseenter',()=>clearInterval(timer));
+  wrap.addEventListener('mouseleave',resetTimer);
+
+  window.addEventListener('resize',()=>update());
+  resetTimer();
+  slides[0].classList.add('active');
+})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio — CINE+ RENTALS</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;background:#f5f6fa;color:#111225;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cur{width:8px;height:8px;background:#111225;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cur-r{width:30px;height:30px;border:1px solid rgba(17,18,37,.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:24px 80px;transition:padding .3s,background .3s;}
+nav.s{padding:14px 80px;background:rgba(245,246,250,.97);border-bottom:1px solid rgba(17,18,37,.08);backdrop-filter:blur(12px);}
+.logo{display:flex;align-items:center;text-decoration:none;}
+.logo img{height:34px;width:auto;display:block;transition:height .3s,filter .3s;}
+nav.s .logo img{height:26px;filter:invert(1) brightness(0);}
+.nav-r{display:flex;align-items:center;gap:28px;}
+.nav-r a{color:rgba(255,255,255,.7);text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;transition:color .2s;cursor:none;}
+.nav-r a:hover{color:#fff;}
+nav.s .nav-r a{color:rgba(17,18,37,.5);}
+nav.s .nav-r a:hover{color:#111225;}
+.nav-back{display:flex;align-items:center;gap:7px;}
+.nav-cta{border:1px solid rgba(255,255,255,.3)!important;color:rgba(255,255,255,.85)!important;background:rgba(255,255,255,.07);padding:8px 18px;}
+.nav-cta:hover{background:rgba(255,255,255,.15)!important;color:#fff!important;}
+nav.s .nav-cta{border:1px solid rgba(9,123,239,.5)!important;color:#097bef!important;background:rgba(9,123,239,.08)!important;}
+nav.s .nav-cta:hover{background:#097bef!important;color:#fff!important;}
+
+/* HERO */
+#hero{min-height:44vh;position:relative;overflow:hidden;display:flex;align-items:flex-end;background:#111225;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(9,123,239,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(9,123,239,.06) 1px,transparent 1px);background-size:60px 60px;}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.18) 0%,transparent 65%);top:-150px;right:-80px;pointer-events:none;}
+.hero-inner{position:relative;z-index:2;padding:130px 80px 56px;}
+.hero-eyebrow{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:14px;opacity:0;animation:fu .7s .1s forwards;}
+.hero-eyebrow::before{content:'';width:18px;height:2px;background:#097bef;border-radius:2px;}
+.hero-h1{font-size:clamp(40px,6vw,80px);font-weight:800;line-height:.94;letter-spacing:-.02em;text-transform:uppercase;color:#fff;opacity:0;animation:fu .85s .25s forwards;}
+.hero-h1 span{color:#097bef;}
+.hero-sub{font-size:13px;line-height:1.8;color:rgba(255,255,255,.4);max-width:500px;margin-top:16px;opacity:0;animation:fu .85s .4s forwards;}
+
+@keyframes fu{to{opacity:1;transform:translateY(0);}}
+
+/* SHARED */
+.sec-label{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sec-label::before{content:'';width:18px;height:2px;background:#097bef;border-radius:2px;}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.06s;}.d2{transition-delay:.12s;}.d3{transition-delay:.18s;}.d4{transition-delay:.24s;}.d5{transition-delay:.3s;}.d6{transition-delay:.36s;}
+
+/* FILTROS */
+#filtros{padding:32px 80px 0;background:#f5f6fa;border-bottom:1px solid rgba(17,18,37,.08);}
+.filter-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:24px;}
+.filter-btn{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:7px 16px;border-radius:999px;border:1px solid rgba(17,18,37,.12);background:transparent;color:rgba(17,18,37,.45);cursor:none;transition:all .2s;}
+.filter-btn:hover{border-color:rgba(9,123,239,.3);color:#097bef;}
+.filter-btn.active{background:#097bef;border-color:#097bef;color:#fff;}
+
+/* GRID DE PROYECTOS */
+#portfolio{padding:56px 80px 80px;}
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(17,18,37,.07);}
+
+/* CARD */
+.port-card{background:#fff;display:flex;flex-direction:column;cursor:none;transition:background .2s;position:relative;}
+.port-card:hover{background:#f0f4ff;}
+.port-card[data-hidden]{display:none;}
+/* thumb */
+.port-thumb{width:100%;aspect-ratio:16/10;overflow:hidden;position:relative;}
+.port-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s cubic-bezier(.25,.46,.45,.94);}
+.port-card:hover .port-thumb img{transform:scale(1.04);}
+.port-thumb-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+/* gradients per category */
+.bg-video{background:linear-gradient(145deg,#111225,#20254a);}
+.bg-foto{background:linear-gradient(145deg,#20254a,#263166);}
+.bg-podcast{background:linear-gradient(145deg,#097bef,#203c8c);}
+.bg-live{background:linear-gradient(145deg,#111225,#263166);}
+.bg-bts{background:linear-gradient(145deg,#263166,#097bef);}
+/* overlay */
+.port-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,18,37,.75) 0%,transparent 55%);opacity:0;transition:opacity .3s;}
+.port-card:hover .port-thumb::after{opacity:1;}
+/* hover btn */
+.port-arr{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(9,123,239,.9);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:all .3s;z-index:2;color:#fff;}
+.port-card:hover .port-arr{opacity:1;transform:scale(1);}
+/* cat tag */
+.port-cat-tag{position:absolute;bottom:12px;left:12px;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(9,123,239,.85);color:#fff;opacity:0;transition:opacity .3s;z-index:2;}
+.port-card:hover .port-cat-tag{opacity:1;}
+/* body */
+.port-body{padding:16px 20px 22px;}
+.port-cat{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#097bef;margin-bottom:4px;}
+.port-title{font-size:14px;font-weight:700;letter-spacing:-.01em;color:#111225;line-height:1.3;margin-bottom:3px;}
+.port-client{font-size:10px;color:rgba(17,18,37,.35);font-weight:500;}
+.port-num{font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(17,18,37,.18);float:right;margin-top:2px;}
+
+/* EMPTY STATE */
+.port-empty{grid-column:span 3;padding:80px 40px;text-align:center;display:none;}
+.port-empty.show{display:block;}
+.port-empty p{font-size:12px;color:rgba(17,18,37,.35);font-weight:500;letter-spacing:.06em;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(17,18,37,.75);backdrop-filter:blur(10px);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;position:relative;transform:translateY(16px) scale(.97);transition:transform .3s;border-radius:2px;}
+.modal-overlay.open .modal{transform:translateY(0) scale(1);}
+/* modal image slider */
+.modal-slider{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:linear-gradient(145deg,#111225,#20254a);}
+.modal-slides{display:flex;transition:transform .5s ease;}
+.modal-slide{min-width:100%;aspect-ratio:16/9;overflow:hidden;flex-shrink:0;}
+.modal-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.modal-slide-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.1;}
+.ms-btn{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(17,18,37,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:none;color:#fff;z-index:2;transition:background .2s;border:none;}
+.ms-btn:hover{background:rgba(9,123,239,.8);}
+.ms-prev{left:12px;}.ms-next{right:12px;}
+.ms-counter{position:absolute;top:12px;right:14px;font-size:9px;font-weight:700;letter-spacing:.15em;color:rgba(255,255,255,.45);}
+.ms-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;}
+.ms-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s;cursor:none;}
+.ms-dot.active{background:#fff;width:14px;border-radius:3px;}
+/* modal content */
+.modal-body{padding:28px 32px 32px;}
+.modal-badge{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:4px 12px;border-radius:999px;background:rgba(9,123,239,.08);color:#097bef;border:1px solid rgba(9,123,239,.2);margin-bottom:14px;}
+.modal-title{font-size:22px;font-weight:800;letter-spacing:-.01em;color:#111225;margin-bottom:6px;line-height:1.2;}
+.modal-client{font-size:11px;font-weight:500;color:rgba(17,18,37,.4);margin-bottom:18px;}
+.modal-desc{font-size:12px;line-height:1.85;color:rgba(17,18,37,.55);margin-bottom:22px;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px;}
+.modal-tag{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:rgba(17,18,37,.05);border:1px solid rgba(17,18,37,.1);color:rgba(17,18,37,.55);}
+.modal-cta{display:flex;gap:10px;}
+.modal-btn-wa{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;box-shadow:0 3px 14px rgba(37,211,102,.3);}
+.modal-btn-wa:hover{box-shadow:0 5px 22px rgba(37,211,102,.45);transform:translateY(-1px);}
+.modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(17,18,37,.08);border:none;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .2s;color:#111225;z-index:3;}
+.modal-close:hover{background:#111225;color:#fff;}
+.modal::-webkit-scrollbar{width:3px;}
+.modal::-webkit-scrollbar-thumb{background:rgba(17,18,37,.12);border-radius:3px;}
+
+/* CTA */
+#cta{padding:80px 80px;background:#111225;position:relative;overflow:hidden;}
+#cta::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.18),transparent 60%);top:-150px;right:-80px;}
+.cta-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;}
+.cta-inner h2{font-size:clamp(22px,3vw,38px);font-weight:300;letter-spacing:.05em;text-transform:uppercase;color:#fff;line-height:1.15;margin-bottom:10px;}
+.cta-inner h2 strong{font-weight:800;display:block;}
+.cta-inner p{font-size:13px;color:rgba(255,255,255,.38);line-height:1.8;max-width:400px;}
+.cta-btns{display:flex;flex-direction:column;gap:10px;align-items:flex-end;flex-shrink:0;}
+.pill-wa{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(145deg,#25d366,#128c7e);box-shadow:0 4px 20px rgba(37,211,102,.3);color:#fff;}
+.pill-wa:hover{box-shadow:0 6px 28px rgba(37,211,102,.5);transform:translateY(-2px);}
+.pill-ig{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(145deg,#833ab4,#fd1d1d,#fcb045);box-shadow:0 4px 20px rgba(131,58,180,.3);color:#fff;}
+.pill-ig:hover{box-shadow:0 6px 28px rgba(131,58,180,.5);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{background:#0c0e1c;border-top:1px solid rgba(255,255,255,.04);}
+.ft-bot{padding:22px 80px;display:flex;justify-content:space-between;align-items:center;}
+.ft-copy{font-size:10px;color:rgba(255,255,255,.18);}
+.ft-back-link{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s;cursor:none;}
+.ft-back-link:hover{color:#fff;}
+.ft-logo-ft{font-size:12px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.4);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav,nav.s{padding:16px 28px;}
+  .hero-inner{padding:100px 28px 48px;}
+  #filtros{padding:24px 28px 0;}
+  #portfolio{padding:40px 28px 60px;}
+  .port-grid{grid-template-columns:repeat(2,1fr);}
+  .port-empty{grid-column:span 2;}
+  #cta{padding:56px 28px;}
+  .cta-inner{grid-template-columns:1fr;}
+  .cta-btns{align-items:flex-start;}
+  .ft-bot{padding:16px 28px;flex-direction:column;gap:8px;text-align:center;}
+}
+@media(max-width:640px){
+  nav,nav.s{padding:14px 20px;}
+  .nav-r a:not(.nav-cta):not(.nav-back){display:none;}
+  .hero-inner{padding:90px 20px 40px;}
+  #filtros{padding:20px 20px 0;}
+  #portfolio{padding:32px 20px 48px;}
+  .port-grid{grid-template-columns:1fr;}
+  .port-empty{grid-column:span 1;}
+  #cta{padding:48px 20px;}
+  .ft-bot{padding:14px 20px;}
+  .modal-body{padding:20px 22px 26px;}
+}
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 2l10 10M12 2L2 12"/></svg>
+    </button>
+    <div class="modal-slider">
+      <div class="modal-slides" id="msTrack"></div>
+      <button class="ms-btn ms-prev" id="msPrev"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2L4 7l5 5"/></svg></button>
+      <button class="ms-btn ms-next" id="msNext"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2l5 5-5 5"/></svg></button>
+      <div class="ms-counter" id="msCounter"></div>
+      <div class="ms-dots" id="msDots"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-badge" id="mBadge"></div>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-client" id="mClient"></div>
+      <div class="modal-desc" id="mDesc"></div>
+      <div class="modal-tags" id="mTags"></div>
+      <div class="modal-cta">
+        <a href="https://wa.me/528180166377" target="_blank" class="modal-btn-wa">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.7a.75.75 0 0 0 .906.919l6.01-1.51A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.127-1.415l-.368-.217-3.811.957.988-3.7-.24-.381A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Consultar este proyecto
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cur" id="c"></div>
+<div class="cur-r" id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <img src="LOGO/1x/Recurso 1CINE+PLUS LOGO.png" alt="CINE+ RENTALS">
+  </a>
+  <div class="nav-r">
+    <a href="index.html" class="nav-back"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>Inicio</a>
+    <a href="index.html#contacto" class="nav-cta">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">CINE+ RENTALS</div>
+    <h1 class="hero-h1">NUESTRO<br><span>PORTAFOLIO</span></h1>
+    <p class="hero-sub">Proyectos de producción audiovisual: videos musicales, podcast, sesiones de foto, Facebook Lives y más.</p>
+  </div>
+</section>
+
+<!-- FILTROS -->
+
+  
+</div>
+
+<!-- GRID -->
+<section id="portfolio">
+  <div class="port-grid" id="portGrid">
+
+    <!-- ══ AGREGA TUS PROYECTOS AQUÍ ══
+         Copia y pega el bloque de .port-card para cada proyecto.
+         Cambia:
+           data-cat="video" → categoría del filtro (video | foto | podcast | live | bts)
+           data-imgs → rutas de tus fotos separadas por coma
+           data-title → nombre del proyecto
+           data-client → cliente o artista
+           data-desc → descripción
+           data-tags → etiquetas separadas por coma
+           .bg-video / .bg-foto / etc → clase de color de fondo placeholder
+    ══ -->
+
+    <div class="port-card rv"
+      data-cat="video"
+      data-imgs="proyectos/noche-infinita-1.jpg,proyectos/noche-infinita-2.jpg,proyectos/noche-infinita-3.jpg"
+      data-title="Noche Infinita"
+      data-client="Artista · Video Musical"
+      data-desc="Producción cinematográfica completa: dirección, fotografía de cine, gaffer e iluminación, y post-producción de color. Rodado en locaciones de Monterrey."
+      data-tags="Dirección,Fotografía,Coloración,Post-producción"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-video">
+        <!-- <img src="proyectos/noche-infinita-1.jpg" alt="Noche Infinita"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><rect x="2" y="6" width="40" height="32" rx="3"/><path d="M42 14l16-6v24l-16-6"/></svg></div>
+        <div class="port-cat-tag">Video Musical</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Video Musical</div>
+        <div class="port-title">Noche Infinita<span class="port-num">01</span></div>
+        <div class="port-client">Artista · Monterrey</div>
+      </div>
+    </div>
+
+    <div class="port-card rv d1"
+      data-cat="podcast"
+      data-imgs="proyectos/studio-sessions-1.jpg,proyectos/studio-sessions-2.jpg"
+      data-title="Studio Sessions"
+      data-client="Studio Sessions · Podcast"
+      data-desc="Grabación, dirección de arte y producción de video para podcast. Setup multi-cámara con iluminación profesional y audio de alta calidad."
+      data-tags="Podcast,Multi-cámara,Audio Pro,Iluminación"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-podcast">
+        <!-- <img src="proyectos/studio-sessions-1.jpg" alt="Studio Sessions"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><circle cx="16" cy="20" r="9"/><path d="M4 44a12 12 0 0 1 24 0"/><circle cx="44" cy="20" r="9"/><path d="M32 44a12 12 0 0 1 24 0"/></svg></div>
+        <div class="port-cat-tag">Podcast</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Podcast</div>
+        <div class="port-title">Studio Sessions<span class="port-num">02</span></div>
+        <div class="port-client">Studio Sessions</div>
+      </div>
+    </div>
+
+    <div class="port-card rv d2"
+      data-cat="live"
+      data-imgs="proyectos/lanzamiento-1.jpg,proyectos/lanzamiento-2.jpg"
+      data-title="Lanzamiento en Vivo"
+      data-client="Cliente · Evento"
+      data-desc="Transmisión en vivo de lanzamiento de producto con setup de 3 cámaras, switcher de video y streaming profesional a Facebook Live."
+      data-tags="Facebook Live,3 Cámaras,Switcher,Streaming"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-live">
+        <!-- <img src="proyectos/lanzamiento-1.jpg" alt="Lanzamiento"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><rect x="2" y="8" width="38" height="28" rx="3"/><path d="M40 16l18-6v24l-18-6"/></svg></div>
+        <div class="port-cat-tag">Facebook Live</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Facebook Live</div>
+        <div class="port-title">Lanzamiento en Vivo<span class="port-num">03</span></div>
+        <div class="port-client">Cliente · Evento</div>
+      </div>
+    </div>
+
+    <div class="port-card rv"
+      data-cat="foto"
+      data-imgs="proyectos/editorial-1.jpg,proyectos/editorial-2.jpg,proyectos/editorial-3.jpg"
+      data-title="Editorial Fashion"
+      data-client="Marca · Fotografía"
+      data-desc="Sesión editorial de moda en estudio con ciclorama. Dirección de arte, iluminación profesional y retoque de imagen."
+      data-tags="Fotografía,Estudio,Ciclorama,Moda"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-foto">
+        <!-- <img src="proyectos/editorial-1.jpg" alt="Editorial Fashion"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><rect x="2" y="4" width="56" height="40" rx="3"/><circle cx="30" cy="24" r="13"/><circle cx="30" cy="24" r="6"/></svg></div>
+        <div class="port-cat-tag">Fotografía</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Sesión de Fotos</div>
+        <div class="port-title">Editorial Fashion<span class="port-num">04</span></div>
+        <div class="port-client">Marca · Monterrey</div>
+      </div>
+    </div>
+
+    <div class="port-card rv d1"
+      data-cat="video"
+      data-imgs="proyectos/ciudad-luces-1.jpg,proyectos/ciudad-luces-2.jpg"
+      data-title="Ciudad de Luces"
+      data-client="Artista · Video Musical"
+      data-desc="Video musical con tomas nocturnas en exteriores de Monterrey. Operador de drone, equipo de iluminación HMI y cámara cinema."
+      data-tags="Drone,HMI,Noche,Cine"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-video">
+        <!-- <img src="proyectos/ciudad-luces-1.jpg" alt="Ciudad de Luces"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><rect x="2" y="6" width="40" height="32" rx="3"/><path d="M42 14l16-6v24l-16-6"/><line x1="12" y1="18" x2="12" y2="30"/><line x1="20" y1="14" x2="20" y2="34"/></svg></div>
+        <div class="port-cat-tag">Video Musical</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Video Musical</div>
+        <div class="port-title">Ciudad de Luces<span class="port-num">05</span></div>
+        <div class="port-client">Artista · MTY</div>
+      </div>
+    </div>
+
+    <div class="port-card rv d2"
+      data-cat="bts"
+      data-imgs="proyectos/bts-1.jpg,proyectos/bts-2.jpg,proyectos/bts-3.jpg"
+      data-title="Making Of — BTS"
+      data-client="Producción · Behind the Scenes"
+      data-desc="Registro de behind the scenes de producción cinematográfica. Captura de la dinámica de set, crew y proceso creativo."
+      data-tags="BTS,Set,Crew,Documental"
+      onclick="openModal(this)">
+      <div class="port-thumb bg-bts">
+        <!-- <img src="proyectos/bts-1.jpg" alt="BTS"> -->
+        <div class="port-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"><rect x="2" y="8" width="52" height="34" rx="4"/><circle cx="27" cy="25" r="9"/><rect x="36" y="14" width="12" height="12" rx="2"/></svg></div>
+        <div class="port-cat-tag">Behind the Scenes</div>
+        <div class="port-arr"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+      </div>
+      <div class="port-body">
+        <div class="port-cat">Behind the Scenes</div>
+        <div class="port-title">Making Of — BTS<span class="port-num">06</span></div>
+        <div class="port-client">Producción interna</div>
+      </div>
+    </div>
+
+    <!-- ESTADO VACÍO (cuando no hay resultados del filtro) -->
+    <div class="port-empty" id="portEmpty">
+      <p>No hay proyectos en esta categoría aún.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner rv">
+    <div>
+      <h2><strong>¿Tu proyecto</strong>podría estar aquí?</h2>
+      <p>Escríbenos y hablemos de tu próxima producción. Respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="cta-btns">
+      <a href="https://wa.me/528180166377" class="pill-wa">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.7a.75.75 0 0 0 .906.919l6.01-1.51A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.956 9.956 0 0 1-5.127-1.415l-.368-.217-3.811.957.988-3.7-.24-.381A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://www.instagram.com/cineplusproducciones/" target="_blank" class="pill-ig">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/></svg>
+        Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-bot">
+    <div class="ft-logo-ft">CINE+ RENTALS</div>
+    <a href="index.html" class="ft-back-link"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2L4 7l5 5"/></svg>Volver al inicio</a>
+    <div class="ft-copy">© 2025 CINE+ RENTALS · San Pedro Garza García, N.L.</div>
+  </div>
+</footer>
+
+<script>
+/* CURSOR */
+const c=document.getElementById('c'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.port-card,.filter-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{c.style.width='5px';c.style.height='5px';cr.style.width='40px';cr.style.height='40px';});
+  el.addEventListener('mouseleave',()=>{c.style.width='8px';c.style.height='8px';cr.style.width='30px';cr.style.height='30px';});
+});
+
+/* NAV */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+
+/* REVEAL */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* FILTROS */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    const cards = document.querySelectorAll('.port-card');
+    let visible = 0;
+    cards.forEach(card=>{
+      const show = f==='all' || card.dataset.cat===f;
+      card.style.display = show ? 'flex' : 'none';
+      if(show) visible++;
+    });
+    document.getElementById('portEmpty').classList.toggle('show', visible===0);
+  });
+});
+
+/* MODAL */
+let msCur = 0, msTotal = 0;
+
+function openModal(card) {
+  const imgs = (card.dataset.imgs||'').split(',').filter(Boolean);
+  const title = card.dataset.title || '';
+  const client = card.dataset.client || '';
+  const desc = card.dataset.desc || '';
+  const tags = (card.dataset.tags||'').split(',').filter(Boolean);
+  const cat = card.querySelector('.port-cat')?.textContent || '';
+
+  // badge
+  document.getElementById('mBadge').textContent = cat;
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mClient').textContent = client;
+  document.getElementById('mDesc').textContent = desc;
+
+  // tags
+  const tagsEl = document.getElementById('mTags');
+  tagsEl.innerHTML = '';
+  tags.forEach(t=>{ const s=document.createElement('span'); s.className='modal-tag'; s.textContent=t.trim(); tagsEl.appendChild(s); });
+
+  // slides
+  const track = document.getElementById('msTrack');
+  const dotsEl = document.getElementById('msDots');
+  track.innerHTML = ''; dotsEl.innerHTML = '';
+  msCur = 0; msTotal = Math.max(imgs.length, 1);
+
+  if(imgs.length > 0) {
+    imgs.forEach((src,i)=>{
+      const sl = document.createElement('div'); sl.className='modal-slide';
+      const img = document.createElement('img'); img.src=src.trim(); img.alt=title;
+      sl.appendChild(img); track.appendChild(sl);
+      const d=document.createElement('div'); d.className='ms-dot'+(i===0?' active':'');
+      d.addEventListener('click',()=>msGo(i-msCur));
+      dotsEl.appendChild(d);
+    });
+  } else {
+    // placeholder
+    const ph = document.createElement('div'); ph.className='modal-slide';
+    const p = document.createElement('div'); p.className='modal-slide-ph';
+    p.innerHTML='<svg width="80" height="60" viewBox="0 0 80 60" fill="none" stroke="white" stroke-width="1"><rect x="4" y="6" width="52" height="42" rx="4"/><path d="M56 16l20-8v28l-20-8"/><circle cx="30" cy="27" r="10"/></svg>';
+    ph.appendChild(p); track.appendChild(ph);
+    msTotal=1;
+  }
+  msUpdateUI();
+
+  // WA link with project name
+  document.querySelector('.modal-btn-wa').href = `https://wa.me/528180166377?text=Hola%21+Vi+el+proyecto+%22${encodeURIComponent(title)}%22+y+me+interesa+algo+similar.`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function msGo(dir){
+  msCur = (msCur+dir+msTotal)%msTotal;
+  document.getElementById('msTrack').style.transform=`translateX(-${msCur*100}%)`;
+  msUpdateUI();
+}
+function msUpdateUI(){
+  document.getElementById('msCounter').textContent = msTotal>1 ? `${msCur+1} / ${msTotal}` : '';
+  document.getElementById('msDots').querySelectorAll('.ms-dot').forEach((d,i)=>d.classList.toggle('active',i===msCur));
+  document.getElementById('msPrev').style.display = msTotal>1?'flex':'none';
+  document.getElementById('msNext').style.display = msTotal>1?'flex':'none';
+}
+
+document.getElementById('msNext').addEventListener('click',()=>msGo(1));
+document.getElementById('msPrev').addEventListener('click',()=>msGo(-1));
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+</script>
+</body>
+</html>
