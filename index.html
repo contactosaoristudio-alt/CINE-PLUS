@@ -9,12 +9,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Montserrat',sans-serif;background:#f5f6fa;color:#111225;overflow-x:hidden;cursor:none;}
-
-/* ─── CURSOR ─── */
 .cur{width:8px;height:8px;background:#111225;border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
 .cur-r{width:30px;height:30px;border:1px solid rgba(17,18,37,.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
-
-/* ─── NAV ─── */
 nav{position:fixed;top:0;left:0;width:100%;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:28px 64px;transition:padding .3s,background .3s;}
 nav.s{padding:16px 64px;background:rgba(245,246,250,.97);border-bottom:1px solid rgba(17,18,37,.08);backdrop-filter:blur(12px);}
 .logo{display:flex;align-items:center;text-decoration:none;}
@@ -29,8 +25,6 @@ nav.s .nav-r a:hover{color:#111225;}
 .nav-cta:hover{background:rgba(255,255,255,.15)!important;color:#fff!important;border-color:#fff!important;}
 nav.s .nav-cta{border:1px solid rgba(9,123,239,.5)!important;color:#097bef!important;background:rgba(9,123,239,.08)!important;}
 nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;background:#097bef!important;}
-
-/* ─── HERO ─── */
 #hero{min-height:88vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#111225;}
 .hero-gif{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;display:block;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(17,18,37,.55) 0%,rgba(17,18,37,.4) 60%,rgba(17,18,37,.75) 100%);z-index:1;pointer-events:none;}
@@ -47,16 +41,11 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .hero-sub{font-size:13px;line-height:1.9;color:rgba(255,255,255,.55);max-width:460px;margin-bottom:0;opacity:0;animation:fu .85s .75s forwards;}
 .hero-scroll{position:absolute;bottom:32px;right:64px;z-index:2;display:flex;align-items:center;gap:10px;font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);opacity:0;animation:fi .8s 1.2s forwards;}
 .hero-scroll::after{content:'';width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent);}
-
 @keyframes fu{to{opacity:1;transform:translateY(0);}}
 @keyframes fi{to{opacity:1;}}
-
-/* ─── SHARED ─── */
 .sec-label{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .sec-label::before{content:'';width:20px;height:2px;background:#097bef;border-radius:2px;}
 .sec-h2{font-size:clamp(28px,3vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:32px;color:#111225;}
-
-/* ─── SERVICIOS ─── */
 #servicios{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
 .srv-head{padding:0 80px;margin-bottom:48px;}
 .srv-pills{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;}
@@ -64,8 +53,6 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .srv-pill:hover{background:linear-gradient(145deg,rgba(9,123,239,.5) 0%,rgba(32,60,140,.6) 50%,rgba(9,123,239,.45) 100%);border-color:rgba(9,123,239,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 4px 20px rgba(9,123,239,.35);transform:translateY(-1px);}
 .srv-pill svg{color:rgba(9,123,239,.9);flex-shrink:0;width:20px;height:20px;}
 .srv-pill span{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
-
-/* ─── RENTA ─── */
 #renta{padding:80px 80px;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
 .renta-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .renta-card{position:relative;overflow:hidden;cursor:none;background:linear-gradient(145deg,#263166 0%,#20254a 60%,#263166 100%);border:1px solid rgba(221,225,243,.09);box-shadow:inset 0 1px 0 rgba(221,225,243,.07);transition:all .3s;display:flex;flex-direction:column;}
@@ -73,6 +60,7 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .renta-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(32,60,140,.3),transparent 60%);pointer-events:none;z-index:1;}
 .renta-img-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;flex-shrink:0;background:linear-gradient(145deg,#111225,#20254a);}
 .renta-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s ease;}
+.renta-img-wrap video{width:100%;height:100%;object-fit:cover;display:block;}
 .renta-card:hover .renta-img-wrap img{transform:scale(1.04);}
 .renta-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.08;position:absolute;inset:0;}
 .renta-body{padding:36px 48px 48px;position:relative;z-index:2;}
@@ -83,12 +71,9 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .renta-desc{font-size:13px;font-weight:400;line-height:1.8;color:rgba(221,225,243,.55);max-width:340px;margin-bottom:32px;}
 .renta-pill{display:inline-flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(221,225,243,.9);text-decoration:none;padding:10px 22px;border-radius:999px;cursor:none;background:linear-gradient(145deg,rgba(9,123,239,.3) 0%,rgba(32,60,140,.45) 50%,rgba(9,123,239,.25) 100%);border:1px solid rgba(9,123,239,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 14px rgba(9,123,239,.2);transition:all .25s;backdrop-filter:blur(6px);}
 .renta-pill:hover{background:linear-gradient(145deg,rgba(9,123,239,.5) 0%,rgba(32,60,140,.6) 50%,rgba(9,123,239,.45) 100%);border-color:rgba(9,123,239,.4);color:#fff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,123,239,.3);}
-
-/* ─── NOSOTROS ─── */
 #nosotros{background:#111225;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.04);}
 #nosotros::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(9,123,239,.1) 0%,transparent 65%);top:-150px;left:-100px;pointer-events:none;z-index:1;}
 .nos-split{display:grid;grid-template-columns:1fr 1fr;min-height:600px;}
-/* left: texto */
 .nos-left{padding:80px;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;}
 .nos-eyebrow{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#097bef;display:flex;align-items:center;gap:10px;margin-bottom:20px;}
 .nos-eyebrow::before{content:'';width:18px;height:2px;background:#097bef;border-radius:2px;}
@@ -96,29 +81,9 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .nos-headline em{font-style:normal;color:#097bef;}
 .nos-body p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.45);margin-bottom:14px;}
 .nos-body p:last-child{margin-bottom:0;}
-/* right: video */
 .nos-right{position:relative;overflow:hidden;min-height:500px;}
 .nos-right video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
 .nos-right-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(17,18,37,.4) 0%,transparent 40%);z-index:1;pointer-events:none;}
-/* bottom: diferenciadores */
-.nos-bottom{padding:64px 80px;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:2;}
-.nos-dif-label{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:32px;display:flex;align-items:center;gap:10px;}
-.nos-dif-label::before{content:'';width:18px;height:1px;background:rgba(255,255,255,.2);}
-.nos-dif-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.05);}
-.nos-dif-item{background:#111225;padding:28px 24px;transition:background .25s;position:relative;overflow:hidden;}
-.nos-dif-item:hover{background:rgba(9,123,239,.08);}
-.nos-dif-item::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:#097bef;transition:height .35s;}
-.nos-dif-item:hover::before{height:100%;}
-.nos-dif-num{font-size:9px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.18);margin-bottom:12px;}
-.nos-dif-text{font-size:12px;font-weight:500;line-height:1.6;color:rgba(255,255,255,.5);}
-.nos-dif-item:hover .nos-dif-text{color:rgba(255,255,255,.75);}
-.nos-closing{margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;}
-.nos-closing-text{font-size:clamp(15px,1.8vw,22px);font-weight:300;letter-spacing:.04em;color:rgba(255,255,255,.65);line-height:1.4;max-width:640px;}
-.nos-closing-text strong{font-weight:800;color:#fff;display:block;}
-.nos-cta-link{display:inline-flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#097bef;text-decoration:none;cursor:none;flex-shrink:0;transition:gap .25s;}
-.nos-cta-link:hover{gap:16px;}
-
-/* ─── PROYECTOS ─── */
 #proyectos{padding:80px 0;border-bottom:1px solid rgba(17,18,37,.08);background:#f5f6fa;}
 .proj-head{padding:0 80px;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
 .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(17,18,37,.07);margin:0 80px;}
@@ -127,18 +92,13 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .proj-thumb{width:100%;aspect-ratio:3/2;overflow:hidden;position:relative;}
 .proj-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.25,.46,.45,.94);}
 .proj-item:hover .proj-thumb img{transform:scale(1.04);}
-.proj-thumb-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .55s cubic-bezier(.25,.46,.45,.94);}
-.proj-item:hover .proj-thumb-ph{transform:scale(1.03);}
 .pg1{background:linear-gradient(145deg,#111225,#20254a);}
 .pg2{background:linear-gradient(145deg,#20254a,#263166);}
 .pg3{background:linear-gradient(145deg,#097bef,#203c8c);}
-.pg4{background:linear-gradient(145deg,#111225,#263166);}
-.pg5{background:linear-gradient(145deg,#263166,#097bef);}
-.pg6{background:linear-gradient(145deg,#20254a,#111225);}
 .proj-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,18,37,.7) 0%,transparent 55%);opacity:0;transition:opacity .3s;}
 .proj-item:hover .proj-thumb::after{opacity:1;}
-.proj-arr{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(9,123,239,.9);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:all .3s;z-index:2;color:#fff;}
-.proj-item:hover .proj-arr{opacity:1;transform:scale(1);}
+.proj-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);width:52px;height:52px;border-radius:50%;background:rgba(9,123,239,.9);display:flex;align-items:center;justify-content:center;opacity:0;transition:all .3s;z-index:2;color:#fff;}
+.proj-item:hover .proj-play{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .proj-tag{position:absolute;bottom:14px;left:14px;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(9,123,239,.85);color:#fff;opacity:0;transition:opacity .3s;z-index:2;}
 .proj-item:hover .proj-tag{opacity:1;}
 .proj-info{padding:16px 20px 20px;}
@@ -148,8 +108,16 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .proj-more{text-align:center;padding:48px 80px 8px;}
 .btn-more{display:inline-flex;align-items:center;gap:10px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-decoration:none;padding:14px 36px;border-radius:999px;cursor:none;background:linear-gradient(135deg,#097bef 0%,#203c8c 100%);box-shadow:0 4px 20px rgba(9,123,239,.3);transition:all .3s;}
 .btn-more:hover{box-shadow:0 8px 32px rgba(9,123,239,.5);transform:translateY(-2px);}
-
-/* ─── CONTACTO ─── */
+/* MODAL */
+.vid-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.vid-modal.open{opacity:1;pointer-events:all;}
+.vid-backdrop{position:absolute;inset:0;background:rgba(10,11,25,.92);backdrop-filter:blur(8px);}
+.vid-box{position:relative;z-index:1;width:90vw;max-width:960px;aspect-ratio:16/9;background:#000;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.vid-box iframe{width:100%;height:100%;border:none;display:block;}
+.vid-back{position:absolute;top:-52px;left:0;display:inline-flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);background:none;border:none;cursor:pointer;transition:color .2s;padding:0;}
+.vid-back:hover{color:#fff;}
+.vid-back svg{transition:transform .2s;}
+.vid-back:hover svg{transform:translateX(-3px);}
 #contacto{padding:80px 80px;background:#f5f6fa;}
 .ct-card{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(17,18,37,.1);overflow:hidden;background:#fff;box-shadow:0 4px 32px rgba(17,18,37,.08);}
 .ct-left{padding:56px 52px;border-right:1px solid rgba(17,18,37,.07);background:#fff;}
@@ -171,8 +139,6 @@ nav.s .nav-cta:hover{border-color:#097bef!important;color:#fff!important;backgro
 .ct-btn-email{display:flex;align-items:center;gap:12px;padding:16px 24px;border-radius:999px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:all .25s;background:linear-gradient(145deg,#833ab4 0%,#fd1d1d 50%,#fcb045 100%);border:1px solid rgba(253,29,29,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 2px 20px rgba(131,58,180,.4);color:#fff;backdrop-filter:blur(6px);}
 .ct-btn-email:hover{background:linear-gradient(145deg,#fcb045 0%,#fd1d1d 50%,#833ab4 100%);border-color:rgba(253,29,29,.5);color:#fff;transform:translateY(-1px);box-shadow:0 6px 32px rgba(131,58,180,.55);}
 .ct-note{font-size:10px;color:rgba(221,225,243,.45);line-height:1.7;margin-top:auto;padding-top:32px;}
-
-/* ─── FOOTER ─── */
 footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
 .ft-top{padding:64px 80px 48px;display:grid;grid-template-columns:1.6fr 1fr;gap:64px;border-bottom:1px solid rgba(255,255,255,.06);}
 .ft-brand .ft-logo{font-size:16px;font-weight:800;letter-spacing:.2em;color:#fff;margin-bottom:12px;}
@@ -185,11 +151,6 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
 .ft-location-link:hover p{color:rgba(255,255,255,.7);}
 .ft-location-link:hover svg{color:#25d366;}
 .ft-col-title{font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:20px;}
-.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.ft-col ul a{color:rgba(255,255,255,.45);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;display:flex;align-items:center;gap:6px;}
-.ft-col ul a::before{content:'';width:4px;height:4px;border-radius:50%;background:#097bef;opacity:0;transition:opacity .2s;flex-shrink:0;}
-.ft-col ul a:hover{color:#fff;}
-.ft-col ul a:hover::before{opacity:1;}
 .ft-social-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .ft-soc-btn{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;text-decoration:none;cursor:none;transition:all .2s;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);}
 .ft-soc-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);transform:translateY(-1px);}
@@ -204,108 +165,31 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
 .ft-bot{padding:22px 80px;display:flex;justify-content:space-between;align-items:center;}
 .ft-copy{font-size:12px;color:rgba(255,255,255,.25);letter-spacing:.04em;}
 .ft-made{font-size:12px;color:rgba(255,255,255,.2);letter-spacing:.04em;}
-
-/* ─── REVEAL ─── */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
 .rv.in{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:1280px){
-  nav,nav.s{padding:22px 40px;}
-  .hero-content{padding:140px 40px 100px;}
-  .hero-scroll{right:40px;}
-  .proj-head{padding:0 40px;}
-  .proj-grid{margin:0 40px;}
-  .proj-more{padding:40px 40px 8px;}
-  .srv-head{padding:0 40px;}
-  #servicios,#renta,#contacto,#nosotros{padding:72px 40px;}
-  .ft-top{padding:56px 40px 40px;}
-  .ft-bot{padding:20px 40px;}
-}
-@media(max-width:1024px){
-  nav,nav.s{padding:18px 28px;}
-  .logo img{height:30px;}
-  .hero-content{padding:120px 28px 80px;}
-  .hero-h1{font-size:clamp(36px,6vw,64px);}
-  .hero-scroll{right:28px;}
-  .proj-head{padding:0 28px;}
-  .proj-grid{grid-template-columns:repeat(2,1fr);margin:0 28px;}
-  .proj-more{padding:32px 28px 8px;}
-  .srv-head{padding:0 28px;}
-  #servicios{padding:64px 28px;}
-  .srv-pills{gap:10px;}
-  #renta{padding:64px 28px;}
-  .renta-grid{grid-template-columns:1fr;}
-  #contacto{padding:64px 28px;}
-  .ct-card{grid-template-columns:1fr;}
-  .ct-left{border-right:none;border-bottom:1px solid rgba(17,18,37,.07);}
-  #nosotros{padding:72px 40px;}
-  .nos-split{grid-template-columns:1fr;min-height:auto;}
-  .nos-left{padding:56px 40px;}
-  .nos-right{min-height:320px;}
-  .nos-bottom{padding:48px 40px;}
-  .nos-dif-grid{grid-template-columns:repeat(2,1fr);}
-  .nos-closing{flex-direction:column;gap:24px;}
-  .ft-top{grid-template-columns:1fr;padding:48px 28px 36px;gap:36px;}
-  .ft-bot{padding:16px 28px;flex-direction:column;gap:6px;text-align:center;}
-}
-@media(max-width:768px){
-  nav,nav.s{padding:16px 20px;}
-  .logo img{height:26px;}
-  .nav-r a:not(.nav-cta){display:none;}
-  #hero{min-height:80vh;}
-  .hero-content{padding:100px 20px 60px;}
-  .hero-h1{font-size:clamp(32px,8vw,52px);letter-spacing:-.01em;}
-  .hero-eyebrow{font-size:10px;}
-  .hero-sub{font-size:12px;}
-  .hero-scroll{display:none;}
-  .proj-head{padding:0 20px;}
-  .proj-grid{grid-template-columns:1fr;margin:0 20px;}
-  .proj-more{padding:28px 20px 8px;}
-  .sec-h2{font-size:clamp(24px,6vw,34px);}
-  #servicios{padding:56px 20px;}
-  .srv-head{padding:0;}
-  .srv-pills{gap:8px;}
-  .srv-pill{padding:12px 18px;}
-  .srv-pill span{font-size:11px;}
-  #renta{padding:56px 20px;}
-  .renta-body{padding:28px 28px 36px;}
-  .renta-title{font-size:18px;}
-  #nosotros{padding:0;}
-  .nos-left{padding:48px 20px;}
-  .nos-right{min-height:260px;}
-  .nos-bottom{padding:40px 20px;}
-  .nos-dif-grid{grid-template-columns:1fr;}
-  .nos-headline{font-size:28px;}
-  #contacto{padding:56px 20px;}
-  .ct-left{padding:36px 28px;}
-  .ct-right{padding:36px 28px;}
-  .ct-btns{gap:10px;}
-  .ct-btn-wa,.ct-btn-email{padding:14px 18px;font-size:10px;}
-  .ft-top{grid-template-columns:1fr;padding:40px 20px 28px;gap:32px;}
-  .ft-social-grid{grid-template-columns:repeat(2,1fr);}
-  .ft-bot{padding:14px 20px;}
-  div[style*="padding:0 80px 40px"]{padding:0 20px 28px!important;}
-}
-@media(max-width:480px){
-  .hero-h1{font-size:28px;}
-  .proj-grid{margin:0 12px;}
-  .proj-head{padding:0 12px;}
-  #servicios,#renta,#contacto{padding:48px 16px;}
-  .srv-pill{padding:10px 14px;}
-  .srv-pill span{font-size:10px;}
-  .srv-pill svg{width:16px;height:16px;}
-  .ft-top{padding:32px 16px 24px;}
-  .ft-social-grid{grid-template-columns:1fr 1fr;}
-  .ct-btn-wa,.ct-btn-email{padding:13px 16px;}
-}
+@media(max-width:1280px){nav,nav.s{padding:22px 40px;}.hero-content{padding:140px 40px 100px;}.hero-scroll{right:40px;}.proj-head{padding:0 40px;}.proj-grid{margin:0 40px;}.proj-more{padding:40px 40px 8px;}.srv-head{padding:0 40px;}#servicios,#renta,#contacto,#nosotros{padding:72px 40px;}.ft-top{padding:56px 40px 40px;}.ft-bot{padding:20px 40px;}}
+@media(max-width:1024px){nav,nav.s{padding:18px 28px;}.logo img{height:30px;}.hero-content{padding:120px 28px 80px;}.hero-h1{font-size:clamp(36px,6vw,64px);}.hero-scroll{right:28px;}.proj-head{padding:0 28px;}.proj-grid{grid-template-columns:repeat(2,1fr);margin:0 28px;}.proj-more{padding:32px 28px 8px;}.srv-head{padding:0 28px;}#servicios{padding:64px 28px;}.srv-pills{gap:10px;}#renta{padding:64px 28px;}.renta-grid{grid-template-columns:1fr;}#contacto{padding:64px 28px;}.ct-card{grid-template-columns:1fr;}.ct-left{border-right:none;border-bottom:1px solid rgba(17,18,37,.07);}#nosotros{padding:72px 40px;}.nos-split{grid-template-columns:1fr;min-height:auto;}.nos-left{padding:56px 40px;}.nos-right{min-height:320px;}.ft-top{grid-template-columns:1fr;padding:48px 28px 36px;gap:36px;}.ft-bot{padding:16px 28px;flex-direction:column;gap:6px;text-align:center;}}
+@media(max-width:768px){nav,nav.s{padding:16px 20px;}.logo img{height:26px;}.nav-r a:not(.nav-cta){display:none;}#hero{min-height:80vh;}.hero-content{padding:100px 20px 60px;}.hero-h1{font-size:clamp(32px,8vw,52px);letter-spacing:-.01em;}.hero-eyebrow{font-size:10px;}.hero-sub{font-size:12px;}.hero-scroll{display:none;}.proj-head{padding:0 20px;}.proj-grid{grid-template-columns:1fr;margin:0 20px;}.proj-more{padding:28px 20px 8px;}.sec-h2{font-size:clamp(24px,6vw,34px);}#servicios{padding:56px 20px;}.srv-head{padding:0;}.srv-pills{gap:8px;}.srv-pill{padding:12px 18px;}.srv-pill span{font-size:11px;}#renta{padding:56px 20px;}.renta-body{padding:28px 28px 36px;}.renta-title{font-size:18px;}#nosotros{padding:0;}.nos-left{padding:48px 20px;}.nos-right{min-height:260px;}.nos-headline{font-size:28px;}#contacto{padding:56px 20px;}.ct-left{padding:36px 28px;}.ct-right{padding:36px 28px;}.ct-btns{gap:10px;}.ct-btn-wa,.ct-btn-email{padding:14px 18px;font-size:10px;}.ft-top{grid-template-columns:1fr;padding:40px 20px 28px;gap:32px;}.ft-social-grid{grid-template-columns:repeat(2,1fr);}.ft-bot{padding:14px 20px;}.vid-box{width:95vw;}.vid-back{font-size:9px;}div[style*="padding:0 80px 40px"]{padding:0 20px 28px!important;}}
+@media(max-width:480px){.hero-h1{font-size:28px;}.proj-grid{margin:0 12px;}.proj-head{padding:0 12px;}#servicios,#renta,#contacto{padding:48px 16px;}.srv-pill{padding:10px 14px;}.srv-pill span{font-size:10px;}.srv-pill svg{width:16px;height:16px;}.ft-top{padding:32px 16px 24px;}.ft-social-grid{grid-template-columns:1fr 1fr;}.ct-btn-wa,.ct-btn-email{padding:13px 16px;}}
 </style>
 </head>
 <body>
 
 <div class="cur" id="c"></div>
 <div class="cur-r" id="cr"></div>
+
+<!-- MODAL VIDEO -->
+<div class="vid-modal" id="vidModal">
+  <div class="vid-backdrop" id="vidBackdrop"></div>
+  <div class="vid-box">
+    <button class="vid-back" id="vidBack">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 3L5 8l5 5"/></svg>
+      Regresar
+    </button>
+    <iframe id="vidFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
 
 <nav id="nav">
   <a href="#" class="logo">
@@ -318,11 +202,9 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
-  <!-- Cambia hero.mp4 por la ruta de tu archivo de video -->
   <video class="hero-gif" autoplay muted loop playsinline>
-    <source src="LOGO\2x\Proyecto Convertir a GIF - 09 de junio de 2026 a las 16.51.56.mp4" type="video/mp4">
+    <source src="LOGO/2x/WhatsApp Video 2026-06-09 at 10.21.40 PM.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -338,7 +220,6 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
   <div class="hero-scroll">Scroll</div>
 </section>
 
-<!-- SERVICIOS -->
 <section id="servicios">
   <div class="srv-head rv">
     <div class="sec-label">Lo que hacemos</div>
@@ -354,18 +235,15 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
   </div>
 </section>
 
-<!-- RENTA -->
 <section id="renta">
   <div style="padding:0 80px 40px;" class="rv">
     <div class="sec-label">Espacio y equipo</div>
     <h2 class="sec-h2">Renta</h2>
   </div>
   <div class="renta-grid rv d1">
-
     <div class="renta-card">
-      <!-- Imagen del estudio: cambia el src por tu foto -->
       <div class="renta-img-wrap">
-        <img src="LOGO\2x\Recurso 1MIJES.png" alt="Renta de Estudio" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="LOGO/2x/Recurso 1MIJES.png" alt="Renta de Estudio" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="renta-img-ph"><svg width="80" height="56" viewBox="0 0 80 56" fill="none" stroke="white" stroke-width="1"><rect x="4" y="6" width="52" height="38" rx="4"/><path d="M56 16l20-8v24l-20-8"/><circle cx="30" cy="25" r="10"/></svg></div>
       </div>
       <div class="renta-body">
@@ -376,12 +254,11 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
         <a href="estudio.html" class="renta-pill">Ver más →</a>
       </div>
     </div>
-
     <div class="renta-card">
-      <!-- Imagen del equipo: cambia el src por tu foto -->
       <div class="renta-img-wrap">
-        <img src="equipo/foto1.jpg" alt="Renta de Equipo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="renta-img-ph"><svg width="80" height="56" viewBox="0 0 80 56" fill="none" stroke="white" stroke-width="1"><rect x="2" y="8" width="52" height="36" rx="4"/><path d="M54 18l22-8v24l-22-8"/><circle cx="28" cy="26" r="10"/><circle cx="28" cy="26" r="4"/></svg></div>
+        <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+          <source src="LOGO/2x/WhatsApp Video 2026-06-09 at 10.19.11 PM.mp4" type="video/mp4">
+        </video>
       </div>
       <div class="renta-body">
         <div class="renta-num">02</div>
@@ -391,17 +268,10 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
         <a href="renta.html" class="renta-pill">Ver catálogo →</a>
       </div>
     </div>
-
   </div>
 </section>
 
-  </div>
-</section>
-
-<!-- NOSOTROS -->
 <section id="nosotros">
-
-  <!-- MITAD SUPERIOR: texto | video -->
   <div class="nos-split">
     <div class="nos-left rv">
       <div class="nos-eyebrow">Casa Productora · Monterrey</div>
@@ -413,18 +283,14 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
       </div>
     </div>
     <div class="nos-right rv d1">
-      <!-- Cambia nosotros.mp4 por tu video -->
       <video autoplay muted loop playsinline>
-        <source src="LOGO\2x\Proyecto Convertir a GIF - 09 de junio de 2026 a las 16.51.56.mp4" type="video/mp4">
+        <source src="LOGO/2x/WhatsApp Video 2026-06-09 at 10.21.40 PM.mp4" type="video/mp4">
       </video>
       <div class="nos-right-overlay"></div>
     </div>
   </div>
-
-
 </section>
 
-<!-- PROYECTOS -->
 <section id="proyectos">
   <div class="proj-head rv">
     <div>
@@ -433,37 +299,46 @@ footer{background:#111225;border-top:1px solid rgba(255,255,255,.04);}
     </div>
   </div>
   <div class="proj-grid">
-    <div class="proj-item rv">
+
+    <div class="proj-item rv" data-yt="bMXLCEy8iOc">
       <div class="proj-thumb pg1">
-        <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="6" width="40" height="32" rx="3"/><path d="M42 14l16-6v24l-16-6"/></svg></div>
+        <img src="https://img.youtube.com/vi/bMXLCEy8iOc/maxresdefault.jpg" alt="GEMELOSR">
         <div class="proj-tag">Video Musical</div>
-        <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        <div class="proj-play">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="5,2 16,9 5,16" fill="white"/></svg>
+        </div>
       </div>
       <div class="proj-info"><div class="proj-cat">Video Musical</div><div class="proj-title">GEMELOSR<span class="proj-num">01</span></div></div>
     </div>
-    <div class="proj-item rv d1">
+
+    <div class="proj-item rv d1" data-yt="evKhoNbD_6o">
       <div class="proj-thumb pg2">
-        <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><circle cx="16" cy="20" r="9"/><path d="M4 44a12 12 0 0 1 24 0"/><circle cx="44" cy="20" r="9"/><path d="M32 44a12 12 0 0 1 24 0"/></svg></div>
-        <div class="proj-tag"></div>
-        <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        <img src="https://img.youtube.com/vi/evKhoNbD_6o/maxresdefault.jpg" alt="Studio Sessions">
+        <div class="proj-tag">Fotografías</div>
+        <div class="proj-play">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="5,2 16,9 5,16" fill="white"/></svg>
+        </div>
       </div>
       <div class="proj-info"><div class="proj-cat">FOTOGRAFIAS</div><div class="proj-title">Studio Sessions<span class="proj-num">02</span></div></div>
     </div>
-    <div class="proj-item rv d2">
+
+    <div class="proj-item rv d2" data-yt="TRLbMA_cvwA">
       <div class="proj-thumb pg3">
-        <div class="proj-thumb-ph"><svg width="56" height="44" viewBox="0 0 60 48" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"><rect x="2" y="8" width="38" height="28" rx="3"/><path d="M40 16l18-6v24l-18-6"/></svg></div>
+        <img src="https://img.youtube.com/vi/TRLbMA_cvwA/maxresdefault.jpg" alt="Lanzamiento en vivo">
         <div class="proj-tag">Facebook Live</div>
-        <div class="proj-arr"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12L12 2M12 2H5M12 2v7"/></svg></div>
+        <div class="proj-play">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polygon points="5,2 16,9 5,16" fill="white"/></svg>
+        </div>
       </div>
       <div class="proj-info"><div class="proj-cat">Facebook Live</div><div class="proj-title">Lanzamiento en vivo<span class="proj-num">03</span></div></div>
     </div>
+
   </div>
   <div class="proj-more rv">
     <a href="proyectos.html" class="btn-more">Ver todos los proyectos <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a>
   </div>
 </section>
 
-<!-- CONTACTO -->
 <section id="contacto">
   <div class="ct-card rv">
     <div class="ct-left">
@@ -530,6 +405,30 @@ document.querySelectorAll('a,button,.srv-pill,.proj-item,.renta-card,.nos-dif-it
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// MODAL
+const modal=document.getElementById('vidModal');
+const frame=document.getElementById('vidFrame');
+const backdrop=document.getElementById('vidBackdrop');
+const backBtn=document.getElementById('vidBack');
+
+function openModal(ytId){
+  frame.src='https://www.youtube.com/embed/'+ytId+'?autoplay=1&rel=0';
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  modal.classList.remove('open');
+  frame.src='';
+  document.body.style.overflow='';
+}
+
+document.querySelectorAll('.proj-item[data-yt]').forEach(item=>{
+  item.addEventListener('click',()=>openModal(item.dataset.yt));
+});
+backBtn.addEventListener('click',closeModal);
+backdrop.addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
 </html>
